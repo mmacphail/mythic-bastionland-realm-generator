@@ -57,10 +57,9 @@ export class Hex {
 }
 
 export class Holding {
-  constructor(row, col, type, isSeatOfPower = false) {
+  constructor(row, col, isSeatOfPower = false) {
     this.row = row;
     this.col = col;
-    this.type = type;
     this.isSeatOfPower = isSeatOfPower;
   }
 }
@@ -115,8 +114,8 @@ export class Realm {
     }
   }
 
-  addHolding(row, col, type, isSeatOfPower = false) {
-    const holding = new Holding(row, col, type, isSeatOfPower);
+  addHolding(row, col, isSeatOfPower = false) {
+    const holding = new Holding(row, col, isSeatOfPower);
     this.holdings.push(holding);
   }
 

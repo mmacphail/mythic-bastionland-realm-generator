@@ -1,4 +1,4 @@
-import HexGrid from "../components/HexGrid";
+import RealmGenerator from "../components/RealmGenerator";
 
 export function meta() {
   return [
@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-100 p-4">
       <div className="max-w-6xl mx-auto">
-        <HexGrid rows={12} cols={12} />
+        <RealmGenerator rows={12} cols={12} />
       </div>
     </div>
   );

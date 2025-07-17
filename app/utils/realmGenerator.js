@@ -2,20 +2,78 @@ import { terrainTypes } from "./hexUtils";
 import { Realm, Hex } from "./realmModel";
 
 export class RealmGenerator {
-  static generateRandomTerrain(rows = 12, cols = 12) {
-    return TerrainGenerator.generateRandomTerrain(rows, cols);
+  static realmDimensions = { rows: 12, cols: 12 };
+
+  static createRealm() {
+    return new Realm(
+      RealmGenerator.realmDimensions.rows,
+      RealmGenerator.realmDimensions.cols
+    );
   }
 
-  static generateBalancedTerrain(rows = 12, cols = 12) {
-    return TerrainGenerator.generateBalancedTerrain(rows, cols);
+  static generateRealm(terrainStrategy) {
+    const realm = this.createRealm();
+    RealmGenerator.generateTerrain(realm, terrainStrategy);
+    RealmGenerator.generateHoldings(realm);
+    return realm;
   }
 
-  static generateWeightedTerrain(rows = 12, cols = 12, weights = null) {
-    return TerrainGenerator.generateWeightedTerrain(rows, cols, weights);
+  static pickRandomLocation() {
+    const row = Math.floor(Math.random() * RealmGenerator.realmDimensions.rows);
+    const col = Math.floor(Math.random() * RealmGenerator.realmDimensions.cols);
+    return { row, col };
   }
 
-  static generateClusteredTerrain(rows = 12, cols = 12) {
-    return TerrainGenerator.generateClusteredTerrain(rows, cols);
+  static generateHoldings(realm, count = 4) {
+    for (let i = 0; i < count; i++) {
+      const { row, col } = this.pickRandomLocation();
+      const isSeatOfPower = i === 0;
+      realm.addHolding(row, col, isSeatOfPower);
+    }
+  }
+
+  static generateTerrain(realm, terrainStrategy) {
+    if(terrainStrategy === "random") {
+      return this.generateRandomTerrain(realm);
+    } else if(terrainStrategy === "balanced") {
+      return this.generateBalancedTerrain(realm);
+    } else if(terrainStrategy === "clustered") {
+      return this.generateClusteredTerrain(realm);
+    } else if(terrainStrategy === "weighted") {
+      return this.generateWeightedTerrain(realm);
+    }
+  }
+
+  static generateRandomTerrain(realm) {
+    return TerrainGenerator.generateRandomTerrain(
+      realm,
+      RealmGenerator.realmDimensions.rows,
+      RealmGenerator.realmDimensions.cols
+    );
+  }
+
+  static generateBalancedTerrain(realm) {
+    return TerrainGenerator.generateBalancedTerrain(
+      realm,
+      RealmGenerator.realmDimensions.rows,
+      RealmGenerator.realmDimensions.cols
+    );
+  }
+
+  static generateWeightedTerrain(realm) {
+    return TerrainGenerator.generateWeightedTerrain(
+      realm,
+      RealmGenerator.realmDimensions.rows,
+      RealmGenerator.realmDimensions.cols
+    );
+  }
+
+  static generateClusteredTerrain(realm) {
+    return TerrainGenerator.generateClusteredTerrain(
+      realm,
+      RealmGenerator.realmDimensions.rows,
+      RealmGenerator.realmDimensions.cols
+    );
   }
 }
 
@@ -87,8 +145,7 @@ export class TerrainGenerator {
   /**
    * Generate completely random terrain
    */
-  static generateRandomTerrain(rows = 12, cols = 12) {
-    const realm = this.createRealm(rows, cols);
+  static generateRandomTerrain(realm, rows = 12, cols = 12) {
     const availableTerrains = this.getAvailableTerrains();
 
     this.fillWithRandomTerrain(realm, rows, cols, availableTerrains);
@@ -99,8 +156,7 @@ export class TerrainGenerator {
   /**
    * Generate terrain ensuring each terrain type appears at least once
    */
-  static generateBalancedTerrain(rows = 12, cols = 12) {
-    const realm = this.createRealm(rows, cols);
+  static generateBalancedTerrain(realm, rows = 12, cols = 12) {
     const totalHexes = rows * cols;
     const availableTerrains = this.getAvailableTerrains();
 
@@ -132,8 +188,7 @@ export class TerrainGenerator {
   /**
    * Generate terrain with weighted distribution
    */
-  static generateWeightedTerrain(rows = 12, cols = 12, weights = null) {
-    const realm = this.createRealm(rows, cols);
+  static generateWeightedTerrain(realm, rows = 12, cols = 12, weights = null) {
     const availableTerrains = this.getAvailableTerrains();
 
     // Default weights favor more common terrain types
@@ -172,8 +227,7 @@ export class TerrainGenerator {
   /**
    * Generate terrain with clustered regions (more realistic)
    */
-  static generateClusteredTerrain(rows = 12, cols = 12) {
-    const realm = this.createRealm(rows, cols);
+  static generateClusteredTerrain(realm, rows = 12, cols = 12) {
     const visited = Array(rows)
       .fill()
       .map(() => Array(cols).fill(false));
