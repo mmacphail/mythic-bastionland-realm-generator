@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { terrainTypes, hexUtils, hexConfig } from '../utils/hexUtils';
-import { Kingdom, TerrainGenerator } from '../utils/kingdomGenerator';
+import { Kingdom } from '../utils/kingdomModel';
+import { TerrainGenerator } from '../utils/kingdomGenerator';
 
 const HexGrid = ({ rows = 12, cols = 12 }) => {
   const [kingdom, setKingdom] = useState(() => new Kingdom(rows, cols));

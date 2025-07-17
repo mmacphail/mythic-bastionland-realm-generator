@@ -1,8 +1,9 @@
 // Example usage of the Kingdom data model and terrain generation
 // This file demonstrates how to use the new kingdomGenerator utilities
 
-import { Kingdom, HexTile, TerrainGenerator } from './utils/kingdomGenerator';
-import { terrainTypes } from './utils/hexUtils';
+import { Kingdom, HexTile } from './kingdomModel';
+import { TerrainGenerator } from './kingdomGenerator';
+import { terrainTypes } from './hexUtils';
 
 /**
  * Example 1: Creating a basic kingdom
