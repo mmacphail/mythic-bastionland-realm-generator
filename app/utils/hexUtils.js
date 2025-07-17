@@ -12,12 +12,9 @@ export const terrainTypes = [
 ];
 
 export const hexUtils = {
-  // Convert hex coordinates to world coordinates
   hexToWorld: (row, col, hexSize) => {
-    // For flat-top hexagons, we need specific spacing calculations
     const hexHeight = Math.sqrt(2.3) * hexSize;
     
-    // Correct spacing for tessellated hex grid
     const xSpacing = hexSize * 1.7; // Distance between hex centers horizontally
     const ySpacing = hexHeight; // Distance between hex centers vertically
     
@@ -28,7 +25,6 @@ export const hexUtils = {
     return { x, y };
   },
 
-  // Generate SVG path for hexagon (flat-top orientation)
   generateHexPath: (x, y, hexSize) => {
     const points = [];
     // Start from top and go clockwise for flat-top hexagon
@@ -41,14 +37,13 @@ export const hexUtils = {
     return `M ${points.join(' L ')} Z`;
   },
 
-  // Get neighboring hex coordinates
   getNeighbors: (row, col, maxRows, maxCols) => {
     const neighbors = [];
     const isEvenRow = row % 2 === 0;
     
     const directions = isEvenRow 
-      ? [[-1, -1], [-1, 0], [0, -1], [0, 1], [1, -1], [1, 0]] // Even row
-      : [[-1, 0], [-1, 1], [0, -1], [0, 1], [1, 0], [1, 1]]; // Odd row
+      ? [[-1, -1], [-1, 0], [0, -1], [0, 1], [1, -1], [1, 0]]
+      : [[-1, 0], [-1, 1], [0, -1], [0, 1], [1, 0], [1, 1]];
     
     directions.forEach(([dr, dc]) => {
       const newRow = row + dr;
@@ -62,9 +57,7 @@ export const hexUtils = {
     return neighbors;
   },
 
-  // Calculate distance between two hexes
   hexDistance: (row1, col1, row2, col2) => {
-    // Convert to cube coordinates for easier distance calculation
     const toCube = (row, col) => {
       const x = col - (row - (row & 1)) / 2;
       const z = row;
@@ -78,12 +71,10 @@ export const hexUtils = {
     return (Math.abs(cube1.x - cube2.x) + Math.abs(cube1.y - cube2.y) + Math.abs(cube1.z - cube2.z)) / 2;
   },
 
-  // Export grid data as JSON
   exportGrid: (hexData) => {
     return JSON.stringify(hexData, null, 2);
   },
 
-  // Import grid data from JSON
   importGrid: (jsonData) => {
     try {
       return JSON.parse(jsonData);

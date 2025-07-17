@@ -6,23 +6,18 @@ const HexGrid = ({ rows = 12, cols = 12 }) => {
     Array(rows).fill().map(() => Array(cols).fill({ ...terrainTypes[0] }))
   );
 
-  // Hex dimensions
   const hexSize = 30;
-  const hexWidth = hexSize * 2;
-  const hexHeight = Math.sqrt(2.3) * hexSize; // Match the height from hexUtils
+  const hexHeight = Math.sqrt(2.3) * hexSize;
   
-  // Calculate SVG dimensions based on proper hex grid layout
   const xSpacing = hexSize * 1.7; // Match the spacing from hexUtils
   const ySpacing = hexHeight; // Distance between hex centers vertically
-  const svgWidth = cols * xSpacing + hexSize * 2; // Add extra space for rightmost hexes
+  const svgWidth = cols * xSpacing + hexSize * 2;
   const svgHeight = rows * ySpacing + hexSize * 2;
 
-  // Handle hex click
   const handleHexClick = (row, col) => {
     const newHexData = [...hexData];
     const currentHex = newHexData[row][col];
     
-    // Cycle through terrain types
     const currentIndex = terrainTypes.findIndex(t => t.type === currentHex.type);
     const nextIndex = (currentIndex + 1) % terrainTypes.length;
     
@@ -68,7 +63,6 @@ const HexGrid = ({ rows = 12, cols = 12 }) => {
                     className="hex-tile cursor-pointer hover:opacity-80 transition-opacity"
                     onClick={() => handleHexClick(rowIndex, colIndex)}
                   />
-                  {/* Coordinates for debugging - remove in production */}
                   <text
                     x={x}
                     y={y}
