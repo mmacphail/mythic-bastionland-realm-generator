@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { terrainTypes, hexUtils, hexConfig } from '../utils/hexUtils';
 import { Realm } from '../utils/realmModel';
-import { TerrainGenerator } from '../utils/realmGenerator';
+import { RealmGenerator } from '../utils/realmGenerator';
 
 const HexGrid = ({ rows = 12, cols = 12 }) => {
   const [realm, setRealm] = useState(() => new Realm(rows, cols));
@@ -26,25 +26,25 @@ const HexGrid = ({ rows = 12, cols = 12 }) => {
   };
 
   const generateRandomTerrain = () => {
-    const newRealm = TerrainGenerator.generateRandomTerrain(rows, cols);
+    const newRealm = RealmGenerator.generateRandomTerrain(rows, cols);
     setRealm(newRealm);
     setHexData(newRealm.toHexGridFormat());
   };
 
   const generateBalancedTerrain = () => {
-    const newRealm = TerrainGenerator.generateBalancedTerrain(rows, cols);
+    const newRealm = RealmGenerator.generateBalancedTerrain(rows, cols);
     setRealm(newRealm);
     setHexData(newRealm.toHexGridFormat());
   };
 
   const generateClusteredTerrain = () => {
-    const newRealm = TerrainGenerator.generateClusteredTerrain(rows, cols);
+    const newRealm = RealmGenerator.generateClusteredTerrain(rows, cols);
     setRealm(newRealm);
     setHexData(newRealm.toHexGridFormat());
   };
 
   const generateWeightedTerrain = () => {
-    const newRealm = TerrainGenerator.generateWeightedTerrain(rows, cols);
+    const newRealm = RealmGenerator.generateWeightedTerrain(rows, cols);
     setRealm(newRealm);
     setHexData(newRealm.toHexGridFormat());
   };

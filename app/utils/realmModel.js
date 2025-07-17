@@ -56,6 +56,15 @@ export class Hex {
   }
 }
 
+export class Holding {
+  constructor(row, col, type, isSeatOfPower = false) {
+    this.row = row;
+    this.col = col;
+    this.type = type;
+    this.isSeatOfPower = isSeatOfPower;
+  }
+}
+
 /**
  * Represents the entire realm with a grid of hex tiles
  */
@@ -63,6 +72,7 @@ export class Realm {
   constructor(rows = 12, cols = 12) {
     this.rows = rows;
     this.cols = cols;
+    this.holdings = [];
     this.hexMap = this.initializeHexMap();
     this.metadata = {
       createdAt: new Date(),
@@ -103,6 +113,15 @@ export class Realm {
       this.hexMap[row][col].setTerrainType(terrainType);
       this.metadata.lastModified = new Date();
     }
+  }
+
+  addHolding(row, col, type, isSeatOfPower = false) {
+    const holding = new Holding(row, col, type, isSeatOfPower);
+    this.holdings.push(holding);
+  }
+
+  getHoldings() {
+    return this.holdings;
   }
 
   /**
