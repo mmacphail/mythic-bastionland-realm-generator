@@ -1,5 +1,3 @@
-// Kingdom data model classes
-
 import { terrainTypes } from './hexUtils';
 
 /**

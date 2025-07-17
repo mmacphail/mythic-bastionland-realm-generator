@@ -1,10 +1,5 @@
-// Random terrain generation utilities
-
 import { terrainTypes } from './hexUtils';
 import { Kingdom, HexTile } from './kingdomModel';
-
-// Re-export the model classes for backward compatibility
-export { Kingdom, HexTile };
 
 /**
  * Random terrain generation utilities
