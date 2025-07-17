@@ -1,5 +1,5 @@
 import { terrainTypes } from './hexUtils';
-import { Realm, HexTile } from './realmModel';
+import { Realm, Hex } from './realmModel';
 
 /**
  * Random terrain generation utilities
@@ -216,4 +216,4 @@ export class TerrainGenerator {
   }
 }
 
-export default { Realm, HexTile, TerrainGenerator };
+export default { Realm, Hex, TerrainGenerator };

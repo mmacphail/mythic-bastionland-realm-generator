@@ -3,7 +3,7 @@ import { terrainTypes } from './hexUtils';
 /**
  * Represents a single hex tile in the realm
  */
-export class HexTile {
+export class Hex {
   constructor(row, col, terrainType = terrainTypes[0]) {
     this.row = row;
     this.col = col;
@@ -51,11 +51,8 @@ export class HexTile {
     };
   }
 
-  /**
-   * Create HexTile from plain object
-   */
   static fromJSON(data) {
-    return new HexTile(data.row, data.col, data.terrainType);
+    return new Hex(data.row, data.col, data.terrainType);
   }
 }
 
@@ -66,7 +63,7 @@ export class Realm {
   constructor(rows = 12, cols = 12) {
     this.rows = rows;
     this.cols = cols;
-    this.grid = this.initializeGrid();
+    this.hexMap = this.initializeHexMap();
     this.metadata = {
       createdAt: new Date(),
       lastModified: new Date(),
@@ -77,15 +74,15 @@ export class Realm {
   /**
    * Initialize an empty grid with default terrain
    */
-  initializeGrid() {
-    const grid = [];
+  initializeHexMap() {
+    const hexMap = [];
     for (let row = 0; row < this.rows; row++) {
-      grid[row] = [];
+      hexMap[row] = [];
       for (let col = 0; col < this.cols; col++) {
-        grid[row][col] = new HexTile(row, col, terrainTypes[0]); // Default to 'empty'
+        hexMap[row][col] = new Hex(row, col, terrainTypes[0]); // Default to 'empty'
       }
     }
-    return grid;
+    return hexMap;
   }
 
   /**
@@ -93,7 +90,7 @@ export class Realm {
    */
   getHex(row, col) {
     if (row >= 0 && row < this.rows && col >= 0 && col < this.cols) {
-      return this.grid[row][col];
+      return this.hexMap[row][col];
     }
     return null;
   }
@@ -103,7 +100,7 @@ export class Realm {
    */
   setHex(row, col, terrainType) {
     if (row >= 0 && row < this.rows && col >= 0 && col < this.cols) {
-      this.grid[row][col].setTerrainType(terrainType);
+      this.hexMap[row][col].setTerrainType(terrainType);
       this.metadata.lastModified = new Date();
     }
   }
@@ -115,8 +112,8 @@ export class Realm {
     const hexes = [];
     for (let row = 0; row < this.rows; row++) {
       for (let col = 0; col < this.cols; col++) {
-        if (this.grid[row][col].getTerrainType().type === terrainType) {
-          hexes.push(this.grid[row][col]);
+        if (this.hexMap[row][col].getTerrainType().type === terrainType) {
+          hexes.push(this.hexMap[row][col]);
         }
       }
     }
@@ -134,7 +131,7 @@ export class Realm {
 
     for (let row = 0; row < this.rows; row++) {
       for (let col = 0; col < this.cols; col++) {
-        const terrainType = this.grid[row][col].getTerrainType().type;
+        const terrainType = this.hexMap[row][col].getTerrainType().type;
         stats[terrainType]++;
       }
     }
@@ -150,7 +147,7 @@ export class Realm {
     for (let row = 0; row < this.rows; row++) {
       hexData[row] = [];
       for (let col = 0; col < this.cols; col++) {
-        hexData[row][col] = this.grid[row][col].getTerrainType();
+        hexData[row][col] = this.hexMap[row][col].getTerrainType();
       }
     }
     return hexData;
@@ -162,7 +159,7 @@ export class Realm {
   fromHexGridFormat(hexData) {
     for (let row = 0; row < this.rows && row < hexData.length; row++) {
       for (let col = 0; col < this.cols && col < hexData[row].length; col++) {
-        this.grid[row][col].setTerrainType(hexData[row][col]);
+        this.hexMap[row][col].setTerrainType(hexData[row][col]);
       }
     }
     this.metadata.lastModified = new Date();
@@ -175,7 +172,7 @@ export class Realm {
     return {
       rows: this.rows,
       cols: this.cols,
-      grid: this.grid.map(row => row.map(hex => hex.toJSON())),
+      grid: this.hexMap.map(row => row.map(hex => hex.toJSON())),
       metadata: this.metadata
     };
   }
@@ -189,7 +186,7 @@ export class Realm {
     
     for (let row = 0; row < data.rows; row++) {
       for (let col = 0; col < data.cols; col++) {
-        realm.grid[row][col] = HexTile.fromJSON(data.grid[row][col]);
+        realm.hexMap[row][col] = Hex.fromJSON(data.hexMap[row][col]);
       }
     }
     
@@ -197,4 +194,4 @@ export class Realm {
   }
 }
 
-export default { Realm, HexTile };
+export default { Realm, Hex };
