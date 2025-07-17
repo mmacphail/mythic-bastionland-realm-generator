@@ -13,3 +13,36 @@ body {
     color-scheme: dark;
   }
 }
+
+/* Custom hex grid styles */
+.hex-grid-container {
+  user-select: none;
+}
+
+.hex-tile {
+  transition: all 0.2s ease;
+}
+
+.hex-tile:hover {
+  stroke-width: 2;
+  filter: brightness(1.1);
+}
+
+.hex-grid-svg {
+  display: block;
+  margin: 0 auto;
+}
+
+.legend {
+  font-family: 'Inter', sans-serif;
+}
+
+.legend > div {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+}
