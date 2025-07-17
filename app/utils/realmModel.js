@@ -1,7 +1,7 @@
 import { terrainTypes } from './hexUtils';
 
 /**
- * Represents a single hex tile in the kingdom
+ * Represents a single hex tile in the realm
  */
 export class HexTile {
   constructor(row, col, terrainType = terrainTypes[0]) {
@@ -60,9 +60,9 @@ export class HexTile {
 }
 
 /**
- * Represents the entire kingdom with a grid of hex tiles
+ * Represents the entire realm with a grid of hex tiles
  */
-export class Kingdom {
+export class Realm {
   constructor(rows = 12, cols = 12) {
     this.rows = rows;
     this.cols = cols;
@@ -143,7 +143,7 @@ export class Kingdom {
   }
 
   /**
-   * Convert kingdom to a format compatible with HexGrid component
+   * Convert realm to a format compatible with HexGrid component
    */
   toHexGridFormat() {
     const hexData = [];
@@ -157,7 +157,7 @@ export class Kingdom {
   }
 
   /**
-   * Update kingdom from HexGrid format
+   * Update realm from HexGrid format
    */
   fromHexGridFormat(hexData) {
     for (let row = 0; row < this.rows && row < hexData.length; row++) {
@@ -169,7 +169,7 @@ export class Kingdom {
   }
 
   /**
-   * Export kingdom to JSON
+   * Export realm to JSON
    */
   export() {
     return {
@@ -181,20 +181,20 @@ export class Kingdom {
   }
 
   /**
-   * Import kingdom from JSON
+   * Import realm from JSON
    */
   static import(data) {
-    const kingdom = new Kingdom(data.rows, data.cols);
-    kingdom.metadata = data.metadata;
+    const realm = new Realm(data.rows, data.cols);
+    realm.metadata = data.metadata;
     
     for (let row = 0; row < data.rows; row++) {
       for (let col = 0; col < data.cols; col++) {
-        kingdom.grid[row][col] = HexTile.fromJSON(data.grid[row][col]);
+        realm.grid[row][col] = HexTile.fromJSON(data.grid[row][col]);
       }
     }
     
-    return kingdom;
+    return realm;
   }
 }
 
-export default { Kingdom, HexTile };
+export default { Realm, HexTile };

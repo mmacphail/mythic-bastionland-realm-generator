@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { terrainTypes, hexUtils, hexConfig } from '../utils/hexUtils';
-import { Kingdom } from '../utils/kingdomModel';
-import { TerrainGenerator } from '../utils/kingdomGenerator';
+import { Realm } from '../utils/realmModel';
+import { TerrainGenerator } from '../utils/realmGenerator';
 
 const HexGrid = ({ rows = 12, cols = 12 }) => {
-  const [kingdom, setKingdom] = useState(() => new Kingdom(rows, cols));
-  const [hexData, setHexData] = useState(() => kingdom.toHexGridFormat());
+  const [realm, setRealm] = useState(() => new Realm(rows, cols));
+  const [hexData, setHexData] = useState(() => realm.toHexGridFormat());
 
   const hexSize = hexConfig.defaultSize;
   const { width: svgWidth, height: svgHeight } = hexConfig.getSvgDimensions(rows, cols, hexSize);
@@ -20,43 +20,43 @@ const HexGrid = ({ rows = 12, cols = 12 }) => {
     newHexData[row][col] = { ...terrainTypes[nextIndex] };
     setHexData(newHexData);
     
-    // Update kingdom model
-    kingdom.setHex(row, col, terrainTypes[nextIndex]);
-    setKingdom(kingdom);
+    // Update realm model
+    realm.setHex(row, col, terrainTypes[nextIndex]);
+    setRealm(realm);
   };
 
   const generateRandomTerrain = () => {
-    const newKingdom = TerrainGenerator.generateRandomTerrain(rows, cols);
-    setKingdom(newKingdom);
-    setHexData(newKingdom.toHexGridFormat());
+    const newRealm = TerrainGenerator.generateRandomTerrain(rows, cols);
+    setRealm(newRealm);
+    setHexData(newRealm.toHexGridFormat());
   };
 
   const generateBalancedTerrain = () => {
-    const newKingdom = TerrainGenerator.generateBalancedTerrain(rows, cols);
-    setKingdom(newKingdom);
-    setHexData(newKingdom.toHexGridFormat());
+    const newRealm = TerrainGenerator.generateBalancedTerrain(rows, cols);
+    setRealm(newRealm);
+    setHexData(newRealm.toHexGridFormat());
   };
 
   const generateClusteredTerrain = () => {
-    const newKingdom = TerrainGenerator.generateClusteredTerrain(rows, cols);
-    setKingdom(newKingdom);
-    setHexData(newKingdom.toHexGridFormat());
+    const newRealm = TerrainGenerator.generateClusteredTerrain(rows, cols);
+    setRealm(newRealm);
+    setHexData(newRealm.toHexGridFormat());
   };
 
   const generateWeightedTerrain = () => {
-    const newKingdom = TerrainGenerator.generateWeightedTerrain(rows, cols);
-    setKingdom(newKingdom);
-    setHexData(newKingdom.toHexGridFormat());
+    const newRealm = TerrainGenerator.generateWeightedTerrain(rows, cols);
+    setRealm(newRealm);
+    setHexData(newRealm.toHexGridFormat());
   };
 
   const clearTerrain = () => {
-    const newKingdom = new Kingdom(rows, cols);
-    setKingdom(newKingdom);
-    setHexData(newKingdom.toHexGridFormat());
+    const newRealm = new Realm(rows, cols);
+    setRealm(newRealm);
+    setHexData(newRealm.toHexGridFormat());
   };
 
   const getTerrainStats = () => {
-    return kingdom.getTerrainStats();
+    return realm.getTerrainStats();
   };
 
   return (
