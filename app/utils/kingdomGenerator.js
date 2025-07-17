@@ -11,9 +11,14 @@ export class TerrainGenerator {
   static generateRandomTerrain(rows = 12, cols = 12) {
     const kingdom = new Kingdom(rows, cols);
     
+    // Filter out empty and city terrain types
+    const availableTerrains = terrainTypes.filter(terrain => 
+      terrain.type !== 'empty' && terrain.type !== 'city'
+    );
+    
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col < cols; col++) {
-        const randomTerrain = terrainTypes[Math.floor(Math.random() * terrainTypes.length)];
+        const randomTerrain = availableTerrains[Math.floor(Math.random() * availableTerrains.length)];
         kingdom.setHex(row, col, randomTerrain);
       }
     }
@@ -28,6 +33,11 @@ export class TerrainGenerator {
     const kingdom = new Kingdom(rows, cols);
     const totalHexes = rows * cols;
     const positions = [];
+    
+    // Filter out empty and city terrain types
+    const availableTerrains = terrainTypes.filter(terrain => 
+      terrain.type !== 'empty' && terrain.type !== 'city'
+    );
     
     // Create array of all possible positions
     for (let row = 0; row < rows; row++) {
@@ -44,8 +54,8 @@ export class TerrainGenerator {
     
     let positionIndex = 0;
     
-    // First, place at least one of each terrain type
-    terrainTypes.forEach(terrain => {
+    // First, place at least one of each terrain type (except empty and city)
+    availableTerrains.forEach(terrain => {
       if (positionIndex < totalHexes) {
         const pos = positions[positionIndex];
         kingdom.setHex(pos.row, pos.col, terrain);
@@ -56,7 +66,7 @@ export class TerrainGenerator {
     // Fill remaining positions with random terrain types
     while (positionIndex < totalHexes) {
       const pos = positions[positionIndex];
-      const randomTerrain = terrainTypes[Math.floor(Math.random() * terrainTypes.length)];
+      const randomTerrain = availableTerrains[Math.floor(Math.random() * availableTerrains.length)];
       kingdom.setHex(pos.row, pos.col, randomTerrain);
       positionIndex++;
     }
@@ -70,23 +80,26 @@ export class TerrainGenerator {
   static generateWeightedTerrain(rows = 12, cols = 12, weights = null) {
     const kingdom = new Kingdom(rows, cols);
     
-    // Default weights favor more common terrain types
+    // Default weights favor more common terrain types (excluding empty and city)
     const defaultWeights = {
-      'empty': 0.1,
-      'plains': 0.25,
-      'forest': 0.2,
-      'mountain': 0.15,
+      'plains': 0.35,
+      'forest': 0.25,
+      'mountain': 0.18,
       'water': 0.15,
-      'desert': 0.05,
-      'swamp': 0.05,
-      'city': 0.05
+      'desert': 0.04,
+      'swamp': 0.03
     };
     
     const terrainWeights = weights || defaultWeights;
     
+    // Filter out empty and city terrain types
+    const availableTerrains = terrainTypes.filter(terrain => 
+      terrain.type !== 'empty' && terrain.type !== 'city'
+    );
+    
     // Create weighted array
     const weightedTerrains = [];
-    terrainTypes.forEach(terrain => {
+    availableTerrains.forEach(terrain => {
       const weight = terrainWeights[terrain.type] || 0.1;
       const count = Math.floor(weight * 100); // Convert to integer for array repetition
       for (let i = 0; i < count; i++) {
@@ -112,14 +125,19 @@ export class TerrainGenerator {
     const kingdom = new Kingdom(rows, cols);
     const visited = Array(rows).fill().map(() => Array(cols).fill(false));
     
+    // Filter out empty and city terrain types
+    const availableTerrains = terrainTypes.filter(terrain => 
+      terrain.type !== 'empty' && terrain.type !== 'city'
+    );
+    
     // Generate seed points for different terrain types
-    const seedCount = Math.min(terrainTypes.length, Math.floor((rows * cols) / 8));
+    const seedCount = Math.min(availableTerrains.length, Math.floor((rows * cols) / 8));
     const seeds = [];
     
     for (let i = 0; i < seedCount; i++) {
       const row = Math.floor(Math.random() * rows);
       const col = Math.floor(Math.random() * cols);
-      const terrain = terrainTypes[i % terrainTypes.length];
+      const terrain = availableTerrains[i % availableTerrains.length];
       seeds.push({ row, col, terrain });
     }
     
@@ -161,7 +179,7 @@ export class TerrainGenerator {
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col < cols; col++) {
         if (!visited[row][col]) {
-          const randomTerrain = terrainTypes[Math.floor(Math.random() * terrainTypes.length)];
+          const randomTerrain = availableTerrains[Math.floor(Math.random() * availableTerrains.length)];
           kingdom.setHex(row, col, randomTerrain);
         }
       }
