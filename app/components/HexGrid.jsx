@@ -1,18 +1,13 @@
 import React, { useState } from 'react';
-import { terrainTypes, hexUtils } from '../utils/hexUtils';
+import { terrainTypes, hexUtils, hexConfig } from '../utils/hexUtils';
 
 const HexGrid = ({ rows = 12, cols = 12 }) => {
   const [hexData, setHexData] = useState(
     Array(rows).fill().map(() => Array(cols).fill({ ...terrainTypes[0] }))
   );
 
-  const hexSize = 30;
-  const hexHeight = Math.sqrt(2.3) * hexSize;
-  
-  const xSpacing = hexSize * 1.7; // Match the spacing from hexUtils
-  const ySpacing = hexHeight; // Distance between hex centers vertically
-  const svgWidth = cols * xSpacing + hexSize * 2;
-  const svgHeight = rows * ySpacing + hexSize * 2;
+  const hexSize = hexConfig.defaultSize;
+  const { width: svgWidth, height: svgHeight } = hexConfig.getSvgDimensions(rows, cols, hexSize);
 
   const handleHexClick = (row, col) => {
     const newHexData = [...hexData];

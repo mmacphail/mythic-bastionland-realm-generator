@@ -11,12 +11,32 @@ export const terrainTypes = [
   { type: 'city', color: '#696969', name: 'City' },
 ];
 
+// Centralized hex configuration
+export const hexConfig = {
+  defaultSize: 30,
+  heightMultiplier: Math.sqrt(2.3),
+  xSpacingMultiplier: 1.7,
+  
+  // Calculate derived values
+  getHexHeight: (hexSize = hexConfig.defaultSize) => hexConfig.heightMultiplier * hexSize,
+  getXSpacing: (hexSize = hexConfig.defaultSize) => hexSize * hexConfig.xSpacingMultiplier,
+  getYSpacing: (hexSize = hexConfig.defaultSize) => hexConfig.getHexHeight(hexSize),
+  
+  // Calculate SVG dimensions
+  getSvgDimensions: (rows, cols, hexSize = hexConfig.defaultSize) => {
+    const xSpacing = hexConfig.getXSpacing(hexSize);
+    const ySpacing = hexConfig.getYSpacing(hexSize);
+    return {
+      width: cols * xSpacing + hexSize * 2,
+      height: rows * ySpacing + hexSize * 2
+    };
+  }
+};
+
 export const hexUtils = {
-  hexToWorld: (row, col, hexSize) => {
-    const hexHeight = Math.sqrt(2.3) * hexSize;
-    
-    const xSpacing = hexSize * 1.7; // Distance between hex centers horizontally
-    const ySpacing = hexHeight; // Distance between hex centers vertically
+  hexToWorld: (row, col, hexSize = hexConfig.defaultSize) => {
+    const xSpacing = hexConfig.getXSpacing(hexSize);
+    const ySpacing = hexConfig.getYSpacing(hexSize);
     
     // Calculate position with proper offset for alternating rows
     const x = col * xSpacing + (row % 2) * (xSpacing / 2) + hexSize;
