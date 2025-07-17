@@ -14,22 +14,26 @@ export const terrainTypes = [
 export const hexUtils = {
   // Convert hex coordinates to world coordinates
   hexToWorld: (row, col, hexSize) => {
-    const hexWidth = hexSize * 2;
-    const hexHeight = Math.sqrt(3) * hexSize;
-    const hexVerticalSpacing = hexHeight * 0.75;
-    const hexHorizontalSpacing = hexWidth * 0.75;
+    // For flat-top hexagons, we need specific spacing calculations
+    const hexHeight = Math.sqrt(2.3) * hexSize;
     
-    const x = col * hexHorizontalSpacing + (row % 2) * (hexHorizontalSpacing / 2) + hexSize;
-    const y = row * hexVerticalSpacing + hexSize;
+    // Correct spacing for tessellated hex grid
+    const xSpacing = hexSize * 1.7; // Distance between hex centers horizontally
+    const ySpacing = hexHeight; // Distance between hex centers vertically
+    
+    // Calculate position with proper offset for alternating rows
+    const x = col * xSpacing + (row % 2) * (xSpacing / 2) + hexSize;
+    const y = row * ySpacing + hexSize;
     
     return { x, y };
   },
 
-  // Generate SVG path for hexagon
+  // Generate SVG path for hexagon (flat-top orientation)
   generateHexPath: (x, y, hexSize) => {
     const points = [];
+    // Start from top and go clockwise for flat-top hexagon
     for (let i = 0; i < 6; i++) {
-      const angle = (i * Math.PI) / 3;
+      const angle = (i * Math.PI) / 3 - Math.PI / 2; // Start from top (-90 degrees)
       const pointX = x + hexSize * Math.cos(angle);
       const pointY = y + hexSize * Math.sin(angle);
       points.push(`${pointX},${pointY}`);

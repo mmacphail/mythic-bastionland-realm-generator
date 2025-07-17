@@ -10,12 +10,12 @@ const HexGrid = ({ rows = 12, cols = 12 }) => {
   const hexSize = 30;
   const hexWidth = hexSize * 2;
   const hexHeight = Math.sqrt(3) * hexSize;
-  const hexVerticalSpacing = hexHeight * 0.75;
-  const hexHorizontalSpacing = hexWidth * 0.75;
-
-  // SVG dimensions
-  const svgWidth = cols * hexHorizontalSpacing + hexWidth * 0.5;
-  const svgHeight = rows * hexVerticalSpacing + hexHeight * 0.5;
+  
+  // Calculate SVG dimensions based on proper hex grid layout
+  const xSpacing = hexSize * 1.5; // Distance between hex centers horizontally
+  const ySpacing = hexHeight; // Distance between hex centers vertically
+  const svgWidth = cols * xSpacing + xSpacing / 2 + hexSize * 2;
+  const svgHeight = rows * ySpacing + hexSize * 2;
 
   // Handle hex click
   const handleHexClick = (row, col) => {
