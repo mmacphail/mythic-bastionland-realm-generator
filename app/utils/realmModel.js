@@ -64,20 +64,28 @@ export class Holding {
   }
 }
 
+export class Myth {
+  constructor(row, col, name) {
+    this.row = row;
+    this.col = col;
+    this.name = name;
+  }
+}
+
 export const landmarkTypes = [
   "Dwelling", "Sanctum", "Monument", "Hazard", "Curse", "Ruin"
 ];
 
 export class Landmark {
-  constructor(row, col, type, label) {
+  constructor(row, col, type, name) {
     this.row = row;
     this.col = col;
     this.type = type;
-    this.label = label;
+    this.name = name;
   }
 
   static fromJSON(data) {
-    return new Landmark(data.row, data.col, data.type, data.label);
+    return new Landmark(data.row, data.col, data.type, data.name);
   }
 }
 
@@ -90,6 +98,7 @@ export class Realm {
     this.cols = cols;
     this.holdings = [];
     this.landmarks = [];
+    this.myths = [];
     this.hexMap = this.initializeHexMap();
     this.metadata = {
       createdAt: new Date(),
@@ -141,13 +150,22 @@ export class Realm {
     return this.holdings;
   }
 
-  addLandmark(row, col, type, label) {
-    const landmark = new Landmark(row, col, type, label);
+  addLandmark(row, col, type, name) {
+    const landmark = new Landmark(row, col, type, name);
     this.landmarks.push(landmark);
   }
 
   getLandmarks() {
     return this.landmarks;
+  }
+
+  addMyth(row, col, name) {
+    const myth = new Myth(row, col, name);
+    this.myths.push(myth);
+  }
+
+  getMyths() {
+    return this.myths;
   }
 
   /**

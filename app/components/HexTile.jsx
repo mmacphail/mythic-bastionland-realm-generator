@@ -1,18 +1,8 @@
 import { hexUtils } from '../utils/hexUtils';
 
-const HexTile = ({ hex, rowIndex, colIndex, hexSize, onHexClick, landmarks = [], holdings = [] }) => {
+const HexTile = ({ hex, rowIndex, colIndex, hexSize, onHexClick, landmark, holding }) => {
   const { x, y } = hexUtils.hexToWorld(rowIndex, colIndex, hexSize);
   const hexPath = hexUtils.generateHexPath(x, y, hexSize);
-  
-  // Find landmarks at this position
-  const landmarksAtPosition = landmarks.filter(landmark => 
-    landmark.row === rowIndex && landmark.col === colIndex
-  );
-  
-  // Find holdings at this position
-  const holdingsAtPosition = holdings.filter(holding => 
-    holding.row === rowIndex && holding.col === colIndex
-  );
   
   return (
     <g>
@@ -26,7 +16,7 @@ const HexTile = ({ hex, rowIndex, colIndex, hexSize, onHexClick, landmarks = [],
       />
       
       {/* Render holdings */}
-      {holdingsAtPosition.length > 0 && (
+      {holding && (
         <text
           x={x}
           y={y - 8}
@@ -37,15 +27,15 @@ const HexTile = ({ hex, rowIndex, colIndex, hexSize, onHexClick, landmarks = [],
           className="pointer-events-none select-none holding-symbol"
           style={{ fontWeight: 'bold' }}
         >
-          {holdingsAtPosition.some(holding => holding.isSeatOfPower) ? 'S' : 'H'}
+          {holding.isSeatOfPower ? 'S' : 'H'}
         </text>
       )}
       
       {/* Render landmarks */}
-      {landmarksAtPosition.length > 0 && (
+      {landmark && (
         <text
           x={x}
-          y={y + (holdingsAtPosition.length > 0 ? 8 : 0)}
+          y={y + (holding ? 8 : 0)}
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize="16"
@@ -58,7 +48,7 @@ const HexTile = ({ hex, rowIndex, colIndex, hexSize, onHexClick, landmarks = [],
       )}
       
       {/* Coordinates text (only show if no landmarks or holdings) */}
-      {landmarksAtPosition.length === 0 && holdingsAtPosition.length === 0 && (
+      {!landmark && !holding && (
         <text
           x={x}
           y={y}

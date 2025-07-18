@@ -1,5 +1,4 @@
 import HexTile from './HexTile';
-import { hexUtils } from '../utils/hexUtils';
 
 const HexMap = ({ realm, svgWidth, svgHeight, hexSize, onHexClick }) => {
   const holdings = realm.getHoldings();
@@ -14,18 +13,23 @@ const HexMap = ({ realm, svgWidth, svgHeight, hexSize, onHexClick }) => {
         className="hex-grid-svg"
       >
         {realm.toHexGridFormat().map((row, rowIndex) =>
-          row.map((hex, colIndex) => (
-            <HexTile
-              key={`${rowIndex}-${colIndex}`}
-              hex={hex}
-              rowIndex={rowIndex}
-              colIndex={colIndex}
-              hexSize={hexSize}
-              onHexClick={onHexClick}
-              landmarks={landmarks}
-              holdings={holdings}
-            />
-          ))
+          row.map((hex, colIndex) => {
+            const landmark = landmarks.find(l => l.row === rowIndex && l.col === colIndex);
+            const holding = holdings.find(h => h.row === rowIndex && h.col === colIndex);
+            
+            return (
+              <HexTile
+                key={`${rowIndex}-${colIndex}`}
+                hex={hex}
+                rowIndex={rowIndex}
+                colIndex={colIndex}
+                hexSize={hexSize}
+                onHexClick={onHexClick}
+                landmark={landmark}
+                holding={holding}
+              />
+            );
+          })
         )}
       </svg>
     </div>

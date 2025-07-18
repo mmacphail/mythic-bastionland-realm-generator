@@ -1,6 +1,14 @@
 import { terrainTypes } from "./hexUtils";
 import { Realm, Hex } from "./realmModel";
 
+const myths = [
+  "The Plague", "The Wall", "The Shadow", "The River", "The Beast", "The Goblin", "The Forest", "The Child", "The Order", "The Dead"
+];
+
+function pickRandomMyth() {
+  return myths[Math.floor(Math.random() * myths.length)];
+}
+
 const landmarks = {
   "Dwelling": ["Shepherd fields", "Verant treehouse", "Traveller's inn", "Fertile farm", "Pigeon breeder"],
   "Sanctum": ["Whispering brook", "Tranquil vista", "Mirrored grotto", "Hilltop hermitage", "Sun shrine"],
@@ -54,6 +62,14 @@ export class RealmGenerator {
         const label = pickRandomLandmark(type);
         realm.addLandmark(row, col, type, label);
       }
+    }
+  }
+
+  static generateMyths(realm, count = 6) {
+    for (let i = 0; i < count; i++) {
+      const { row, col } = this.pickRandomLocation();
+      const name = pickRandomMyth();
+      realm.addMyth(row, col, name);
     }
   }
 
