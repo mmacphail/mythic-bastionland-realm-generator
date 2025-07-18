@@ -1,6 +1,20 @@
 import { terrainTypes } from "./hexUtils";
 import { Realm, Hex } from "./realmModel";
 
+const landmarks = {
+  "Dwelling": ["Shepherd fields", "Verant treehouse", "Traveller's inn", "Fertile farm", "Pigeon breeder"],
+  "Sanctum": ["Whispering brook", "Tranquil vista", "Mirrored grotto", "Hilltop hermitage", "Sun shrine"],
+  "Monument": ["Royal statue", "Ancient obelisk", "Runic cairn", "Knight mausoleum", "Voyage mosaic"],
+  "Hazard": ["Choking woodland", "Stinging leaves", "Forgotten traps", "Razor rocks", "Carrion birds"],
+  "Curse": ["Icy mist", "Shifting pit", "Illusory paths", "Heralds of doom", "Dark woods"],
+  "Ruin": ["Burned village", "Defiled totem", "Skull heap", "Hanging skeletons", "Gory painting"]
+}
+
+function pickRandomLandmark(type) {
+  const options = landmarks[type];
+  return options[Math.floor(Math.random() * options.length)];
+}
+
 export class RealmGenerator {
   static realmDimensions = { rows: 12, cols: 12 };
 
@@ -15,6 +29,7 @@ export class RealmGenerator {
     const realm = this.createRealm();
     RealmGenerator.generateTerrain(realm, terrainStrategy);
     RealmGenerator.generateHoldings(realm);
+    RealmGenerator.generateLandmarks(realm);
     return realm;
   }
 
@@ -29,6 +44,16 @@ export class RealmGenerator {
       const { row, col } = this.pickRandomLocation();
       const isSeatOfPower = i === 0;
       realm.addHolding(row, col, isSeatOfPower);
+    }
+  }
+
+  static generateLandmarks(realm, count = 5) {
+    for (const type of Object.keys(landmarks)) {
+      for (let i = 0; i < count; i++) {
+        const { row, col } = this.pickRandomLocation();
+        const label = pickRandomLandmark(type);
+        realm.addLandmark(row, col, type, label);
+      }
     }
   }
 

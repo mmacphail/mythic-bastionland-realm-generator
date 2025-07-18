@@ -64,6 +64,23 @@ export class Holding {
   }
 }
 
+export const landmarkTypes = [
+  "Dwelling", "Sanctum", "Monument", "Hazard", "Curse", "Ruin"
+];
+
+export class Landmark {
+  constructor(row, col, type, label) {
+    this.row = row;
+    this.col = col;
+    this.type = type;
+    this.label = label;
+  }
+
+  static fromJSON(data) {
+    return new Landmark(data.row, data.col, data.type, data.label);
+  }
+}
+
 /**
  * Represents the entire realm with a grid of hex tiles
  */
@@ -72,6 +89,7 @@ export class Realm {
     this.rows = rows;
     this.cols = cols;
     this.holdings = [];
+    this.landmarks = [];
     this.hexMap = this.initializeHexMap();
     this.metadata = {
       createdAt: new Date(),
@@ -121,6 +139,15 @@ export class Realm {
 
   getHoldings() {
     return this.holdings;
+  }
+
+  addLandmark(row, col, type, label) {
+    const landmark = new Landmark(row, col, type, label);
+    this.landmarks.push(landmark);
+  }
+
+  getLandmarks() {
+    return this.landmarks;
   }
 
   /**
