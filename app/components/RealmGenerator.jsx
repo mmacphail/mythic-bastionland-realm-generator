@@ -7,6 +7,7 @@ import TerrainLegend from "./TerrainLegend";
 import TerrainStatistics from "./TerrainStatistics";
 import HexMap from "./HexMap";
 import HexEditor from "./HexEditor";
+import HexDetails from "./HexDetails";
 import RealmOverview from "./RealmOverview";
 
 const RealmGenerator = ({ rows = 12, cols = 12 }) => {
@@ -62,12 +63,7 @@ const RealmGenerator = ({ rows = 12, cols = 12 }) => {
   };
 
   return (
-    <div className="flex gap-4 min-h-screen">
-      {/* Left Panel - Hex Editor */}
-      <div className="w-64 flex-shrink-0">
-        <HexEditor />
-      </div>
-
+    <div className="min-h-screen">
       {/* Main Content */}
       <div className="flex-1 hex-grid-container">
         <div className="controls mb-4">
@@ -95,13 +91,29 @@ const RealmGenerator = ({ rows = 12, cols = 12 }) => {
           </div>
         </div>
 
-        <HexMap
-          realm={realm}
-          svgWidth={svgWidth}
-          svgHeight={svgHeight}
-          hexSize={hexSize}
-          onHexClick={handleHexClick}
-        />
+        {/* Hex Map and Hex Editor aligned horizontally */}
+        <div className="flex gap-4 items-start">
+          {/* Left Panel - Hex Editor */}
+          <div className="w-64 flex-shrink-0">
+            <HexEditor />
+          </div>
+
+          {/* Hex Map */}
+          <div className="flex-1">
+            <HexMap
+              realm={realm}
+              svgWidth={svgWidth}
+              svgHeight={svgHeight}
+              hexSize={hexSize}
+              onHexClick={handleHexClick}
+            />
+          </div>
+
+          {/* Right Panel - Hex Details */}
+          <div className="w-64 flex-shrink-0">
+            <HexDetails />
+          </div>
+        </div>
 
         {/* Realm Overview - Below the hex map */}
         <div className="mt-4">
