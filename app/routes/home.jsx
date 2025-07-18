@@ -10,7 +10,7 @@ export function meta() {
 export default function Home() {
   return (
     <div className="min-h-screen bg-gray-100 p-4">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-full mx-auto">
         <RealmGenerator rows={12} cols={12} />
       </div>
     </div>
