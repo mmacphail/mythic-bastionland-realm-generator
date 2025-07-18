@@ -236,6 +236,9 @@ export class Realm {
       rows: this.rows,
       cols: this.cols,
       grid: this.hexMap.map(row => row.map(hex => hex.toJSON())),
+      holdings: this.holdings,
+      landmarks: this.landmarks,
+      myths: this.myths,
       metadata: this.metadata
     };
   }
@@ -251,6 +254,17 @@ export class Realm {
       for (let col = 0; col < data.cols; col++) {
         realm.hexMap[row][col] = Hex.fromJSON(data.hexMap[row][col]);
       }
+    }
+    
+    // Import holdings, landmarks, and myths if they exist
+    if (data.holdings) {
+      realm.holdings = data.holdings.map(h => new Holding(h.row, h.col, h.isSeatOfPower));
+    }
+    if (data.landmarks) {
+      realm.landmarks = data.landmarks.map(l => new Landmark(l.row, l.col, l.type, l.name));
+    }
+    if (data.myths) {
+      realm.myths = data.myths.map(m => new Myth(m.row, m.col, m.name));
     }
     
     return realm;

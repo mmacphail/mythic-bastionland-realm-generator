@@ -38,6 +38,7 @@ export class RealmGenerator {
     RealmGenerator.generateTerrain(realm, terrainStrategy);
     RealmGenerator.generateHoldings(realm);
     RealmGenerator.generateLandmarks(realm);
+    RealmGenerator.generateMyths(realm);
     return realm;
   }
 

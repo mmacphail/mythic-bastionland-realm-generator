@@ -1,6 +1,6 @@
 import { hexUtils } from '../utils/hexUtils';
 
-const HexTile = ({ hex, rowIndex, colIndex, hexSize, onHexClick, landmark, holding }) => {
+const HexTile = ({ hex, rowIndex, colIndex, hexSize, onHexClick, landmark, holding, myth }) => {
   const { x, y } = hexUtils.hexToWorld(rowIndex, colIndex, hexSize);
   const hexPath = hexUtils.generateHexPath(x, y, hexSize);
   
@@ -47,8 +47,24 @@ const HexTile = ({ hex, rowIndex, colIndex, hexSize, onHexClick, landmark, holdi
         </text>
       )}
       
-      {/* Coordinates text (only show if no landmarks or holdings) */}
-      {!landmark && !holding && (
+      {/* Render myths */}
+      {myth && (
+        <text
+          x={x}
+          y={y + (holding ? 8 : 0) + (landmark ? 8 : 0)}
+          textAnchor="middle"
+          dominantBaseline="middle"
+          fontSize="16"
+          fill="#000"
+          className="pointer-events-none select-none myth-symbol"
+          style={{ fontWeight: 'bold' }}
+        >
+          M
+        </text>
+      )}
+      
+      {/* Coordinates text (only show if no landmarks, holdings, or myths) */}
+      {!landmark && !holding && !myth && (
         <text
           x={x}
           y={y}

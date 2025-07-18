@@ -3,6 +3,7 @@ import HexTile from './HexTile';
 const HexMap = ({ realm, svgWidth, svgHeight, hexSize, onHexClick }) => {
   const holdings = realm.getHoldings();
   const landmarks = realm.getLandmarks();
+  const myths = realm.getMyths();
   
   return (
     <div className="hex-grid overflow-auto border border-gray-300 rounded-lg p-4">
@@ -16,6 +17,7 @@ const HexMap = ({ realm, svgWidth, svgHeight, hexSize, onHexClick }) => {
           row.map((hex, colIndex) => {
             const landmark = landmarks.find(l => l.row === rowIndex && l.col === colIndex);
             const holding = holdings.find(h => h.row === rowIndex && h.col === colIndex);
+            const myth = myths.find(m => m.row === rowIndex && m.col === colIndex);
             
             return (
               <HexTile
@@ -27,6 +29,7 @@ const HexMap = ({ realm, svgWidth, svgHeight, hexSize, onHexClick }) => {
                 onHexClick={onHexClick}
                 landmark={landmark}
                 holding={holding}
+                myth={myth}
               />
             );
           })
