@@ -269,6 +269,16 @@ export class Realm {
     
     return realm;
   }
+
+  copy() {
+    const newRealm = new Realm(this.rows, this.cols);
+    newRealm.hexMap = { ...this.hexMap };
+    newRealm.holdings = [...this.holdings];
+    newRealm.landmarks = [...this.landmarks];
+    newRealm.myths = [...this.myths];
+    newRealm.lastModified = this.lastModified;
+    return newRealm;
+  }
 }
 
 export default { Realm, Hex };
