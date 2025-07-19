@@ -61,7 +61,10 @@ const RealmOverview = ({ realm }) => {
                 <div key={index} className="space-y-1">
                   {hex.holding && (
                     <div className="text-blue-600 font-semibold">
-                      {hex.holding.isSeatOfPower ? 'Seat of Power' : 'Holding'}
+                      <div>{hex.holding.isSeatOfPower ? 'Seat of Power' : 'Holding'}</div>
+                      {hex.holding.name && hex.holding.name !== "Unknown" && (
+                        <div className="text-blue-500 font-normal">{hex.holding.name}</div>
+                      )}
                     </div>
                   )}
                   {hex.landmark && (
