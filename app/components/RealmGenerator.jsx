@@ -12,6 +12,7 @@ import RealmOverview from "./RealmOverview";
 
 const RealmGenerator = ({ rows = 12, cols = 12 }) => {
   const [realm, setRealm] = useState(() => new Realm(rows, cols));
+  const [selectedHex, setSelectedHex] = useState(null);
 
   const hexSize = hexConfig.defaultSize;
   const { width: svgWidth, height: svgHeight } = hexConfig.getSvgDimensions(
@@ -19,6 +20,16 @@ const RealmGenerator = ({ rows = 12, cols = 12 }) => {
     cols,
     hexSize
   );
+
+  const selectHex = (hex) => {
+    if(selectedHex) {
+      console.log("Hex deselected:", selectedHex);
+      setSelectedHex(null);
+    } else {
+      console.log("Hex selected:", hex);
+      setSelectedHex(hex);
+    }
+  };
 
   const handleHexClick = (row, col) => {
     const currentHex = realm.getHex(row, col);
@@ -102,6 +113,7 @@ const RealmGenerator = ({ rows = 12, cols = 12 }) => {
               svgHeight={svgHeight}
               hexSize={hexSize}
               onHexClick={handleHexClick}
+              selectHex={selectHex}
             />
           </div>
 

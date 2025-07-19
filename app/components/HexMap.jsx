@@ -1,6 +1,6 @@
 import HexTile from './HexTile';
 
-const HexMap = ({ realm, svgWidth, svgHeight, hexSize, onHexClick }) => {
+const HexMap = ({ realm, svgWidth, svgHeight, hexSize, onHexClick, selectHex }) => {
   const holdings = realm.getHoldings();
   const landmarks = realm.getLandmarks();
   const myths = realm.getMyths();
@@ -27,6 +27,7 @@ const HexMap = ({ realm, svgWidth, svgHeight, hexSize, onHexClick }) => {
                 colIndex={colIndex}
                 hexSize={hexSize}
                 onHexClick={onHexClick}
+                selectHex={selectHex}
                 landmark={landmark}
                 holding={holding}
                 myth={myth}
