@@ -29,19 +29,6 @@ const RealmGenerator = ({ rows = 12, cols = 12 }) => {
     }
   };
 
-  const handleHexClick = (row, col) => {
-    const currentHex = realm.getHex(row, col);
-    const currentIndex = terrainTypes.findIndex(
-      (t) => t.type === currentHex.terrainType.type
-    );
-    const nextIndex = (currentIndex + 1) % terrainTypes.length;
-
-    const newRealm = realm.copy();
-    newRealm.setHex(row, col, terrainTypes[nextIndex]);
-
-    setRealm(newRealm);
-  };
-
   const generateRandomTerrain = () => {
     const newRealm = RealmGeneratorUtil.generateRealm("random");
     setRealm(newRealm);
@@ -81,7 +68,6 @@ const RealmGenerator = ({ rows = 12, cols = 12 }) => {
     }
   };
 
-  // Feature management functions
   const addHolding = (row, col, isSeatOfPower = false) => {
     const newRealm = realm.copy();
     newRealm.addHolding(row, col, isSeatOfPower);
