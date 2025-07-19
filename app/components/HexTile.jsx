@@ -1,6 +1,6 @@
 import { hexUtils } from '../utils/hexUtils';
 
-const HexTile = ({ hex, rowIndex, colIndex, hexSize, onHexClick, selectHex, landmark, holding, myth }) => {
+const HexTile = ({ hex, rowIndex, colIndex, hexSize, selectHex, selectedHex, landmark, holding, myth }) => {
   const { x, y } = hexUtils.hexToWorld(rowIndex, colIndex, hexSize);
   const hexPath = hexUtils.generateHexPath(x, y, hexSize);
   

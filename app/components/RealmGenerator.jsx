@@ -22,7 +22,7 @@ const RealmGenerator = ({ rows = 12, cols = 12 }) => {
   );
 
   const selectHex = (hex) => {
-    if(selectedHex) {
+    if(selectedHex && hex === selectedHex) {
       console.log("Hex deselected:", selectedHex);
       setSelectedHex(null);
     } else {
@@ -112,8 +112,8 @@ const RealmGenerator = ({ rows = 12, cols = 12 }) => {
               svgWidth={svgWidth}
               svgHeight={svgHeight}
               hexSize={hexSize}
-              onHexClick={handleHexClick}
               selectHex={selectHex}
+              selectedHex={selectedHex}
             />
           </div>
 
