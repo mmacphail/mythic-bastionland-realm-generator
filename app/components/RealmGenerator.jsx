@@ -6,7 +6,7 @@ import RealmGenerationControls from "./tool/RealmGenerationControls";
 import TerrainLegend from "./tool/TerrainLegend";
 import TerrainStatistics from "./tool/TerrainStatistics";
 import HexMap from "./tool/HexMap";
-import HexEditor from "./tool/HexEditor";
+import HexPainter from "./tool/HexPainter";
 import HexDetails from "./tool/HexDetails";
 import RealmOverview from "./tool/RealmOverview";
 
@@ -172,7 +172,7 @@ const RealmGenerator = ({ rows = 12, cols = 12 }) => {
 
         <div className="flex gap-4 items-start">
           <div className="w-64 flex-shrink-0">
-            <HexEditor />
+            <HexPainter />
           </div>
 
           <div className="flex-1">
