@@ -23,10 +23,8 @@ const RealmGenerator = ({ rows = 12, cols = 12 }) => {
 
   const selectHex = (hex) => {
     if(selectedHex && hex === selectedHex) {
-      console.log("Hex deselected:", selectedHex);
       setSelectedHex(null);
     } else {
-      console.log("Hex selected:", hex);
       setSelectedHex(hex);
     }
   };
