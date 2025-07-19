@@ -118,7 +118,7 @@ const RealmGenerator = ({ rows = 12, cols = 12 }) => {
           </div>
 
           <div className="w-64 flex-shrink-0">
-            <HexDetails />
+            <HexDetails realm={realm} selectedHex={selectedHex} />
           </div>
         </div>
 
