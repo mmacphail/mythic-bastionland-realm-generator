@@ -36,9 +36,12 @@ export class RealmGenerator {
   static generateRealm(terrainStrategy) {
     const realm = this.createRealm();
     RealmGenerator.generateTerrain(realm, terrainStrategy);
-    RealmGenerator.generateHoldings(realm);
-    RealmGenerator.generateLandmarks(realm);
-    RealmGenerator.generateMyths(realm);
+    
+    // Generate features in order of strictest constraints first
+    RealmGenerator.generateHoldings(realm);    // Holdings first (most restrictive)
+    RealmGenerator.generateLandmarks(realm);   // Landmarks second 
+    RealmGenerator.generateMyths(realm);       // Myths last (depends on holdings)
+    
     return realm;
   }
 
@@ -48,29 +51,148 @@ export class RealmGenerator {
     return { row, col };
   }
 
+  /**
+   * Calculate hex distance between two positions
+   * Uses proper hexagonal grid distance calculation
+   */
+  static calculateHexDistance(pos1, pos2) {
+    // Convert rectangular coordinates to hex coordinates
+    // For offset coordinates (odd-r layout), we need to adjust
+    const col1 = pos1.col - Math.floor((pos1.row - (pos1.row % 2)) / 2);
+    const col2 = pos2.col - Math.floor((pos2.row - (pos2.row % 2)) / 2);
+    
+    const dx = col1 - col2;
+    const dy = pos1.row - pos2.row;
+    const dz = -dx - dy;
+    
+    // Hex distance is the maximum of the absolute values
+    return Math.max(Math.abs(dx), Math.abs(dy), Math.abs(dz));
+  }
+
+  /**
+   * Check if a position has any feature (holding, landmark, or myth)
+   */
+  static hasFeatureAtPosition(realm, row, col) {
+    const hasHolding = realm.holdings.some(h => h.row === row && h.col === col);
+    const hasLandmark = realm.landmarks.some(l => l.row === row && l.col === col);
+    const hasMyth = realm.myths.some(m => m.row === row && m.col === col);
+    return hasHolding || hasLandmark || hasMyth;
+  }
+
+  /**
+   * Check if a position is valid for a holding
+   */
+  static isValidHoldingPosition(realm, row, col) {
+    // Rule 1: No feature at this location
+    if (this.hasFeatureAtPosition(realm, row, col)) {
+      return false;
+    }
+
+    // Rule 2: Holdings must be at least 3 hexes from each other
+    for (const holding of realm.holdings) {
+      const distance = this.calculateHexDistance({ row, col }, { row: holding.row, col: holding.col });
+      if (distance < 3) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  /**
+   * Check if a position is valid for a landmark
+   */
+  static isValidLandmarkPosition(realm, row, col) {
+    // Rule 1: No feature at this location
+    if (this.hasFeatureAtPosition(realm, row, col)) {
+      return false;
+    }
+
+    // Rule 2: Landmarks must be at least 1 hex from any other feature
+    const allFeatures = [
+      ...realm.holdings.map(h => ({ row: h.row, col: h.col })),
+      ...realm.landmarks.map(l => ({ row: l.row, col: l.col })),
+      ...realm.myths.map(m => ({ row: m.row, col: m.col }))
+    ];
+
+    for (const feature of allFeatures) {
+      const distance = this.calculateHexDistance({ row, col }, feature);
+      if (distance <= 1) { // Changed from < 1 to <= 1 to ensure at least 1 hex distance
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  /**
+   * Check if a position is valid for a myth
+   */
+  static isValidMythPosition(realm, row, col) {
+    // Rule 1: No feature at this location
+    if (this.hasFeatureAtPosition(realm, row, col)) {
+      return false;
+    }
+
+    // Rule 2: Myths must be at least 3 hexes from holdings
+    for (const holding of realm.holdings) {
+      const distance = this.calculateHexDistance({ row, col }, { row: holding.row, col: holding.col });
+      if (distance < 3) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  /**
+   * Find a valid position with multiple attempts
+   */
+  static findValidPosition(realm, validationFn, maxAttempts = 100) {
+    for (let attempt = 0; attempt < maxAttempts; attempt++) {
+      const { row, col } = this.pickRandomLocation();
+      if (validationFn(realm, row, col)) {
+        return { row, col };
+      }
+    }
+    return null; // Could not find valid position
+  }
+
   static generateHoldings(realm, count = 4) {
     for (let i = 0; i < count; i++) {
-      const { row, col } = this.pickRandomLocation();
-      const isSeatOfPower = i === 0;
-      realm.addHolding(row, col, isSeatOfPower, "Unknown");
+      const position = this.findValidPosition(realm, this.isValidHoldingPosition.bind(this));
+      if (position) {
+        const isSeatOfPower = i === 0;
+        realm.addHolding(position.row, position.col, isSeatOfPower, "Unknown");
+      } else {
+        console.warn(`Could not place holding ${i + 1} due to placement constraints`);
+      }
     }
   }
 
   static generateLandmarks(realm, count = 5) {
     for (const type of Object.keys(landmarks)) {
       for (let i = 0; i < count; i++) {
-        const { row, col } = this.pickRandomLocation();
-        const label = pickRandomLandmark(type);
-        realm.addLandmark(row, col, type, label);
+        const position = this.findValidPosition(realm, this.isValidLandmarkPosition.bind(this));
+        if (position) {
+          const label = pickRandomLandmark(type);
+          realm.addLandmark(position.row, position.col, type, label);
+        } else {
+          console.warn(`Could not place ${type} landmark ${i + 1} due to placement constraints`);
+        }
       }
     }
   }
 
   static generateMyths(realm, count = 6) {
     for (let i = 0; i < count; i++) {
-      const { row, col } = this.pickRandomLocation();
-      const name = pickRandomMyth();
-      realm.addMyth(row, col, name);
+      const position = this.findValidPosition(realm, this.isValidMythPosition.bind(this));
+      if (position) {
+        const name = pickRandomMyth();
+        realm.addMyth(position.row, position.col, name);
+      } else {
+        console.warn(`Could not place myth ${i + 1} due to placement constraints`);
+      }
     }
   }
 
