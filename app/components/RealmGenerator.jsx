@@ -71,18 +71,19 @@ const RealmGenerator = ({ rows = 12, cols = 12 }) => {
     updateSelectedHex(row, col, newRealm);
   };
 
-  const addHolding = (row, col, isSeatOfPower = false) => {
+  const addHolding = (row, col, isSeatOfPower = false, name = "Unknown") => {
     const newRealm = realm.copy();
-    newRealm.addHolding(row, col, isSeatOfPower);
+    newRealm.addHolding(row, col, isSeatOfPower, name);
     setRealm(newRealm);
     updateSelectedHex(row, col, newRealm);
   };
 
-  const updateHolding = (row, col, isSeatOfPower) => {
+  const updateHolding = (row, col, isSeatOfPower, name = "Unknown") => {
     const newRealm = realm.copy();
     const holdingIndex = newRealm.holdings.findIndex(h => h.row === row && h.col === col);
     if (holdingIndex !== -1) {
       newRealm.holdings[holdingIndex].isSeatOfPower = isSeatOfPower;
+      newRealm.holdings[holdingIndex].name = name;
     }
     setRealm(newRealm);
     updateSelectedHex(row, col, newRealm);

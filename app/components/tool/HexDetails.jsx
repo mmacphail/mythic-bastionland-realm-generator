@@ -122,15 +122,27 @@ const HexDetails = ({
                         Remove
                       </button>
                     </div>
-                    <label className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        checked={hexFeature.data.isSeatOfPower}
-                        onChange={(e) => onUpdateHolding(selectedHex.row, selectedHex.col, e.target.checked)}
-                        className="rounded border-gray-300"
-                      />
-                      <span className="text-sm">Seat of Power</span>
-                    </label>
+                    <div className="space-y-2">
+                      <div>
+                        <label className="block text-xs text-gray-600 mb-1">Name</label>
+                        <input
+                          type="text"
+                          value={hexFeature.data.name}
+                          onChange={(e) => onUpdateHolding(selectedHex.row, selectedHex.col, hexFeature.data.isSeatOfPower, e.target.value)}
+                          className="w-full px-2 py-1 text-sm border border-gray-300 rounded"
+                          placeholder="Holding name"
+                        />
+                      </div>
+                      <label className="flex items-center space-x-2">
+                        <input
+                          type="checkbox"
+                          checked={hexFeature.data.isSeatOfPower}
+                          onChange={(e) => onUpdateHolding(selectedHex.row, selectedHex.col, e.target.checked, hexFeature.data.name)}
+                          className="rounded border-gray-300"
+                        />
+                        <span className="text-sm">Seat of Power</span>
+                      </label>
+                    </div>
                   </div>
                 )}
                 

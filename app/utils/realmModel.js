@@ -57,10 +57,11 @@ export class Hex {
 }
 
 export class Holding {
-  constructor(row, col, isSeatOfPower = false) {
+  constructor(row, col, isSeatOfPower = false, name = "Unknown") {
     this.row = row;
     this.col = col;
     this.isSeatOfPower = isSeatOfPower;
+    this.name = name;
   }
 }
 
@@ -141,8 +142,8 @@ export class Realm {
     }
   }
 
-  addHolding(row, col, isSeatOfPower = false) {
-    const holding = new Holding(row, col, isSeatOfPower);
+  addHolding(row, col, isSeatOfPower = false, name = "Unknown") {
+    const holding = new Holding(row, col, isSeatOfPower, name);
     this.holdings.push(holding);
   }
 
@@ -232,7 +233,7 @@ export class Realm {
     
     // Import holdings, landmarks, and myths if they exist
     if (data.holdings) {
-      realm.holdings = data.holdings.map(h => new Holding(h.row, h.col, h.isSeatOfPower));
+      realm.holdings = data.holdings.map(h => new Holding(h.row, h.col, h.isSeatOfPower, h.name));
     }
     if (data.landmarks) {
       realm.landmarks = data.landmarks.map(l => new Landmark(l.row, l.col, l.type, l.name));

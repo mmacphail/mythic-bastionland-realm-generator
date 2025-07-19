@@ -52,7 +52,7 @@ export class RealmGenerator {
     for (let i = 0; i < count; i++) {
       const { row, col } = this.pickRandomLocation();
       const isSeatOfPower = i === 0;
-      realm.addHolding(row, col, isSeatOfPower);
+      realm.addHolding(row, col, isSeatOfPower, "Unknown");
     }
   }
 
