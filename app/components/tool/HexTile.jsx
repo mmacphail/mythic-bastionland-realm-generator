@@ -30,7 +30,7 @@ const HexTile = ({ hex, rowIndex, colIndex, hexSize, selectHex, selectedHex, lan
       {holding && (
         <text
           x={x}
-          y={y - 8}
+          y={y}
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize="16"
@@ -46,7 +46,7 @@ const HexTile = ({ hex, rowIndex, colIndex, hexSize, selectHex, selectedHex, lan
       {landmark && (
         <text
           x={x}
-          y={y + (holding ? 8 : 0)}
+          y={y}
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize="16"
@@ -62,7 +62,7 @@ const HexTile = ({ hex, rowIndex, colIndex, hexSize, selectHex, selectedHex, lan
       {myth && (
         <text
           x={x}
-          y={y + (holding ? 8 : 0) + (landmark ? 8 : 0)}
+          y={y}
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize="16"
