@@ -58,20 +58,24 @@ const RealmGenerator = ({ rows = 12, cols = 12 }) => {
     return realm.getTerrainStats();
   };
 
+  const updateSelectedHex = (row, col, newRealm) => {
+    const hex = newRealm.getHex(row, col);
+    setSelectedHex(hex);
+  };
+
   const editHexTerrain = (row, col, terrainType) => {
     const newRealm = realm.copy();
     newRealm.setHex(row, col, terrainType);
     setRealm(newRealm);
     
-    if (selectedHex && selectedHex.row === row && selectedHex.col === col) {
-      setSelectedHex(newRealm.getHex(row, col));
-    }
+    updateSelectedHex(row, col, newRealm);
   };
 
   const addHolding = (row, col, isSeatOfPower = false) => {
     const newRealm = realm.copy();
     newRealm.addHolding(row, col, isSeatOfPower);
     setRealm(newRealm);
+    updateSelectedHex(row, col, newRealm);
   };
 
   const updateHolding = (row, col, isSeatOfPower) => {
@@ -81,18 +85,21 @@ const RealmGenerator = ({ rows = 12, cols = 12 }) => {
       newRealm.holdings[holdingIndex].isSeatOfPower = isSeatOfPower;
     }
     setRealm(newRealm);
+    updateSelectedHex(row, col, newRealm);
   };
 
   const removeHolding = (row, col) => {
     const newRealm = realm.copy();
     newRealm.holdings = newRealm.holdings.filter(h => !(h.row === row && h.col === col));
     setRealm(newRealm);
+    updateSelectedHex(row, col, newRealm);
   };
 
   const addLandmark = (row, col, type = landmarkTypes[0], name = '') => {
     const newRealm = realm.copy();
     newRealm.addLandmark(row, col, type, name);
     setRealm(newRealm);
+    updateSelectedHex(row, col, newRealm);
   };
 
   const updateLandmark = (row, col, type, name) => {
@@ -103,18 +110,21 @@ const RealmGenerator = ({ rows = 12, cols = 12 }) => {
       newRealm.landmarks[landmarkIndex].name = name;
     }
     setRealm(newRealm);
+    updateSelectedHex(row, col, newRealm);
   };
 
   const removeLandmark = (row, col) => {
     const newRealm = realm.copy();
     newRealm.landmarks = newRealm.landmarks.filter(l => !(l.row === row && l.col === col));
     setRealm(newRealm);
+    updateSelectedHex(row, col, newRealm);
   };
 
   const addMyth = (row, col, name = '') => {
     const newRealm = realm.copy();
     newRealm.addMyth(row, col, name);
     setRealm(newRealm);
+    updateSelectedHex(row, col, newRealm);
   };
 
   const updateMyth = (row, col, name) => {
@@ -124,12 +134,14 @@ const RealmGenerator = ({ rows = 12, cols = 12 }) => {
       newRealm.myths[mythIndex].name = name;
     }
     setRealm(newRealm);
+    updateSelectedHex(row, col, newRealm);
   };
 
   const removeMyth = (row, col) => {
     const newRealm = realm.copy();
     newRealm.myths = newRealm.myths.filter(m => !(m.row === row && m.col === col));
     setRealm(newRealm);
+    updateSelectedHex(row, col, newRealm);
   };
 
   return (
