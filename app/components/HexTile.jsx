@@ -15,6 +15,17 @@ const HexTile = ({ hex, rowIndex, colIndex, hexSize, selectHex, selectedHex, lan
         onClick={() => selectHex(hex)}
       />
       
+      {/* Selection overlay */}
+      {selectedHex && (
+        <path
+          d={hexPath}
+          fill="rgba(255, 192, 203, 0.5)"
+          stroke="red"
+          strokeWidth="3"
+          className="pointer-events-none"
+        />
+      )}
+      
       {/* Render holdings */}
       {holding && (
         <text

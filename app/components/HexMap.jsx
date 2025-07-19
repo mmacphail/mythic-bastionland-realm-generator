@@ -27,7 +27,7 @@ const HexMap = ({ realm, svgWidth, svgHeight, hexSize, selectHex, selectedHex  }
                 colIndex={colIndex}
                 hexSize={hexSize}
                 selectHex={selectHex}
-                selectedHex={selectedHex}
+                selectedHex={selectedHex === hex}
                 landmark={landmark}
                 holding={holding}
                 myth={myth}
