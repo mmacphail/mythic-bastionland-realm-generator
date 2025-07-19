@@ -203,32 +203,6 @@ export class Realm {
   }
 
   /**
-   * Convert realm to a format compatible with HexGrid component
-   */
-  toHexGridFormat() {
-    const hexData = [];
-    for (let row = 0; row < this.rows; row++) {
-      hexData[row] = [];
-      for (let col = 0; col < this.cols; col++) {
-        hexData[row][col] = this.hexMap[row][col].getTerrainType();
-      }
-    }
-    return hexData;
-  }
-
-  /**
-   * Update realm from HexGrid format
-   */
-  fromHexGridFormat(hexData) {
-    for (let row = 0; row < this.rows && row < hexData.length; row++) {
-      for (let col = 0; col < this.cols && col < hexData[row].length; col++) {
-        this.hexMap[row][col].setTerrainType(hexData[row][col]);
-      }
-    }
-    this.metadata.lastModified = new Date();
-  }
-
-  /**
    * Export realm to JSON
    */
   export() {

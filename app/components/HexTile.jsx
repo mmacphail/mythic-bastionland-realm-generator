@@ -8,7 +8,7 @@ const HexTile = ({ hex, rowIndex, colIndex, hexSize, onHexClick, selectHex, land
     <g>
       <path
         d={hexPath}
-        fill={hex.color}
+        fill={hex.terrainType.color}
         stroke="#333"
         strokeWidth="1"
         className="hex-tile cursor-pointer hover:opacity-80 transition-opacity"

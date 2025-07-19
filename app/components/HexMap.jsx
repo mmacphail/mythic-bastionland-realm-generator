@@ -13,7 +13,7 @@ const HexMap = ({ realm, svgWidth, svgHeight, hexSize, onHexClick, selectHex }) 
         viewBox={`0 0 ${svgWidth} ${svgHeight}`}
         className="hex-grid-svg"
       >
-        {realm.toHexGridFormat().map((row, rowIndex) =>
+        {realm.hexMap.map((row, rowIndex) =>
           row.map((hex, colIndex) => {
             const landmark = landmarks.find(l => l.row === rowIndex && l.col === colIndex);
             const holding = holdings.find(h => h.row === rowIndex && h.col === colIndex);
