@@ -73,6 +73,16 @@ const RealmGenerator = ({ rows = 12, cols = 12 }) => {
     return realm.getTerrainStats();
   };
 
+  const editHexTerrain = (row, col, terrainType) => {
+    const newRealm = realm.copy();
+    newRealm.setHex(row, col, terrainType);
+    setRealm(newRealm);
+    
+    if (selectedHex && selectedHex.row === row && selectedHex.col === col) {
+      setSelectedHex(newRealm.getHex(row, col));
+    }
+  };
+
   return (
     <div className="min-h-screen">
       <div className="flex-1 hex-grid-container">
@@ -118,7 +128,11 @@ const RealmGenerator = ({ rows = 12, cols = 12 }) => {
           </div>
 
           <div className="w-64 flex-shrink-0">
-            <HexDetails realm={realm} selectedHex={selectedHex} />
+            <HexDetails 
+              realm={realm} 
+              selectedHex={selectedHex} 
+              onTerrainChange={editHexTerrain}
+            />
           </div>
         </div>
 
