@@ -152,9 +152,6 @@ const RealmGenerator = ({ rows = 12, cols = 12 }) => {
           <h2 className="text-2xl font-bold mb-2">
             Mythic Bastionland Realm Maker
           </h2>
-          <p className="text-gray-600 mb-4">
-            Click on hexes to cycle through terrain types
-          </p>
 
           <RealmGenerationControls
             onGenerateRandom={generateRandomTerrain}
