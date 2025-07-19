@@ -1,4 +1,4 @@
-import { hexUtils } from '../utils/hexUtils';
+import { hexUtils } from '../../utils/hexUtils';
 
 const HexTile = ({ hex, rowIndex, colIndex, hexSize, selectHex, selectedHex, landmark, holding, myth }) => {
   const { x, y } = hexUtils.hexToWorld(rowIndex, colIndex, hexSize);

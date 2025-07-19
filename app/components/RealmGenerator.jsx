@@ -2,13 +2,13 @@ import { useState } from "react";
 import { terrainTypes, hexConfig } from "../utils/hexUtils";
 import { Realm } from "../utils/realmModel";
 import { RealmGenerator as RealmGeneratorUtil } from "../utils/realmGenerator";
-import RealmGenerationControls from "./RealmGenerationControls";
-import TerrainLegend from "./TerrainLegend";
-import TerrainStatistics from "./TerrainStatistics";
-import HexMap from "./HexMap";
-import HexEditor from "./HexEditor";
-import HexDetails from "./HexDetails";
-import RealmOverview from "./RealmOverview";
+import RealmGenerationControls from "./tool/RealmGenerationControls";
+import TerrainLegend from "./tool/TerrainLegend";
+import TerrainStatistics from "./tool/TerrainStatistics";
+import HexMap from "./tool/HexMap";
+import HexEditor from "./tool/HexEditor";
+import HexDetails from "./tool/HexDetails";
+import RealmOverview from "./tool/RealmOverview";
 
 const RealmGenerator = ({ rows = 12, cols = 12 }) => {
   const [realm, setRealm] = useState(() => new Realm(rows, cols));
