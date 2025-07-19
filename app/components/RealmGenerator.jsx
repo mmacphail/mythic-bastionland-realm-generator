@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { terrainTypes, hexConfig } from "../utils/hexUtils";
-import { Realm } from "../utils/realmModel";
+import { Realm, landmarkTypes } from "../utils/realmModel";
 import { RealmGenerator as RealmGeneratorUtil } from "../utils/realmGenerator";
 import RealmGenerationControls from "./tool/RealmGenerationControls";
 import TerrainLegend from "./tool/TerrainLegend";
@@ -81,6 +81,71 @@ const RealmGenerator = ({ rows = 12, cols = 12 }) => {
     }
   };
 
+  // Feature management functions
+  const addHolding = (row, col, isSeatOfPower = false) => {
+    const newRealm = realm.copy();
+    newRealm.addHolding(row, col, isSeatOfPower);
+    setRealm(newRealm);
+  };
+
+  const updateHolding = (row, col, isSeatOfPower) => {
+    const newRealm = realm.copy();
+    const holdingIndex = newRealm.holdings.findIndex(h => h.row === row && h.col === col);
+    if (holdingIndex !== -1) {
+      newRealm.holdings[holdingIndex].isSeatOfPower = isSeatOfPower;
+    }
+    setRealm(newRealm);
+  };
+
+  const removeHolding = (row, col) => {
+    const newRealm = realm.copy();
+    newRealm.holdings = newRealm.holdings.filter(h => !(h.row === row && h.col === col));
+    setRealm(newRealm);
+  };
+
+  const addLandmark = (row, col, type = landmarkTypes[0], name = '') => {
+    const newRealm = realm.copy();
+    newRealm.addLandmark(row, col, type, name);
+    setRealm(newRealm);
+  };
+
+  const updateLandmark = (row, col, type, name) => {
+    const newRealm = realm.copy();
+    const landmarkIndex = newRealm.landmarks.findIndex(l => l.row === row && l.col === col);
+    if (landmarkIndex !== -1) {
+      newRealm.landmarks[landmarkIndex].type = type;
+      newRealm.landmarks[landmarkIndex].name = name;
+    }
+    setRealm(newRealm);
+  };
+
+  const removeLandmark = (row, col) => {
+    const newRealm = realm.copy();
+    newRealm.landmarks = newRealm.landmarks.filter(l => !(l.row === row && l.col === col));
+    setRealm(newRealm);
+  };
+
+  const addMyth = (row, col, name = '') => {
+    const newRealm = realm.copy();
+    newRealm.addMyth(row, col, name);
+    setRealm(newRealm);
+  };
+
+  const updateMyth = (row, col, name) => {
+    const newRealm = realm.copy();
+    const mythIndex = newRealm.myths.findIndex(m => m.row === row && m.col === col);
+    if (mythIndex !== -1) {
+      newRealm.myths[mythIndex].name = name;
+    }
+    setRealm(newRealm);
+  };
+
+  const removeMyth = (row, col) => {
+    const newRealm = realm.copy();
+    newRealm.myths = newRealm.myths.filter(m => !(m.row === row && m.col === col));
+    setRealm(newRealm);
+  };
+
   return (
     <div className="min-h-screen">
       <div className="flex-1 hex-grid-container">
@@ -130,6 +195,15 @@ const RealmGenerator = ({ rows = 12, cols = 12 }) => {
               realm={realm} 
               selectedHex={selectedHex} 
               onTerrainChange={editHexTerrain}
+              onAddHolding={addHolding}
+              onUpdateHolding={updateHolding}
+              onRemoveHolding={removeHolding}
+              onAddLandmark={addLandmark}
+              onUpdateLandmark={updateLandmark}
+              onRemoveLandmark={removeLandmark}
+              onAddMyth={addMyth}
+              onUpdateMyth={updateMyth}
+              onRemoveMyth={removeMyth}
             />
           </div>
         </div>
