@@ -13,6 +13,10 @@ import RealmOverview from "./tool/RealmOverview";
 const RealmGenerator = ({ rows = 12, cols = 12 }) => {
   const [realm, setRealm] = useState(() => new Realm(rows, cols));
   const [selectedHex, setSelectedHex] = useState(null);
+  const [paintingMode, setPaintingMode] = useState(false);
+  const [selectedTerrainType, setSelectedTerrainType] = useState(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStarted, setDragStarted] = useState(false);
 
   const hexSize = hexConfig.defaultSize;
   const { width: svgWidth, height: svgHeight } = hexConfig.getSvgDimensions(
@@ -22,11 +26,64 @@ const RealmGenerator = ({ rows = 12, cols = 12 }) => {
   );
 
   const selectHex = (hex) => {
+    // If in painting mode, don't select hex - paint instead
+    if (paintingMode) {
+      paintHex(hex);
+      return;
+    }
+    
     if(selectedHex && hex === selectedHex) {
       setSelectedHex(null);
     } else {
       setSelectedHex(hex);
     }
+  };
+
+  const handleHexMouseDown = (hex) => {
+    if (paintingMode) {
+      setIsDragging(true);
+      setDragStarted(true);
+      paintHex(hex);
+    } else {
+      selectHex(hex);
+    }
+  };
+
+  const handleHexMouseEnter = (hex) => {
+    if (paintingMode && isDragging && dragStarted) {
+      paintHex(hex);
+    }
+  };
+
+  const handleHexMouseUp = () => {
+    if (paintingMode) {
+      setIsDragging(false);
+      setDragStarted(false);
+    }
+  };
+
+  const startPainting = (terrainType) => {
+    setPaintingMode(true);
+    setSelectedTerrainType(terrainType);
+    setSelectedHex(null); // Deselect any currently selected hex
+  };
+
+  const stopPainting = () => {
+    setPaintingMode(false);
+    setSelectedTerrainType(null);
+    setIsDragging(false);
+    setDragStarted(false);
+  };
+
+  const paintHex = (hex) => {
+    if (!paintingMode || !selectedTerrainType) return;
+    
+    // Don't repaint if it's already the correct terrain type
+    if (hex.terrainType.type === selectedTerrainType.type) return;
+    
+    const newRealm = realm.copy();
+    newRealm.setHex(hex.row, hex.col, selectedTerrainType);
+    setRealm(newRealm);
   };
 
   const generateRandomTerrain = () => {
@@ -146,7 +203,7 @@ const RealmGenerator = ({ rows = 12, cols = 12 }) => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen" onMouseUp={handleHexMouseUp}>
       <div className="flex-1 hex-grid-container">
         <div className="controls mb-4">
           <h2 className="text-2xl font-bold mb-2">
@@ -172,7 +229,13 @@ const RealmGenerator = ({ rows = 12, cols = 12 }) => {
 
         <div className="flex gap-4 items-start">
           <div className="w-64 flex-shrink-0">
-            <HexPainter />
+            <HexPainter 
+              terrainTypes={terrainTypes}
+              paintingMode={paintingMode}
+              selectedTerrainType={selectedTerrainType}
+              onStartPainting={startPainting}
+              onStopPainting={stopPainting}
+            />
           </div>
 
           <div className="flex-1">
@@ -183,6 +246,10 @@ const RealmGenerator = ({ rows = 12, cols = 12 }) => {
               hexSize={hexSize}
               selectHex={selectHex}
               selectedHex={selectedHex}
+              paintingMode={paintingMode}
+              onHexMouseDown={handleHexMouseDown}
+              onHexMouseEnter={handleHexMouseEnter}
+              onHexMouseUp={handleHexMouseUp}
             />
           </div>
 

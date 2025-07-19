@@ -1,8 +1,24 @@
 import { hexUtils } from '../../utils/hexUtils';
 
-const HexTile = ({ hex, rowIndex, colIndex, hexSize, selectHex, selectedHex, landmark, holding, myth }) => {
+const HexTile = ({ hex, rowIndex, colIndex, hexSize, selectHex, selectedHex, paintingMode, onHexMouseDown, onHexMouseEnter, onHexMouseUp, landmark, holding, myth }) => {
   const { x, y } = hexUtils.hexToWorld(rowIndex, colIndex, hexSize);
   const hexPath = hexUtils.generateHexPath(x, y, hexSize);
+  
+  // Change cursor based on mode
+  const cursorClass = paintingMode ? 'cursor-crosshair' : 'cursor-pointer';
+  
+  const handleMouseDown = (e) => {
+    if (paintingMode) {
+      e.preventDefault(); // Prevent text selection and default drag behavior
+      onHexMouseDown && onHexMouseDown(hex);
+    }
+  };
+
+  const handleClick = () => {
+    if (!paintingMode) {
+      selectHex(hex);
+    }
+  };
   
   return (
     <g>
@@ -11,12 +27,16 @@ const HexTile = ({ hex, rowIndex, colIndex, hexSize, selectHex, selectedHex, lan
         fill={hex.terrainType.color}
         stroke="#333"
         strokeWidth="1"
-        className="hex-tile cursor-pointer hover:opacity-80 transition-opacity"
-        onClick={() => selectHex(hex)}
+        className={`hex-tile ${cursorClass} hover:opacity-80 transition-opacity`}
+        onClick={handleClick}
+        onMouseDown={handleMouseDown}
+        onMouseEnter={() => onHexMouseEnter && onHexMouseEnter(hex)}
+        onMouseUp={() => onHexMouseUp && onHexMouseUp()}
+        style={{ userSelect: 'none' }}
       />
       
-      {/* Selection overlay */}
-      {selectedHex && (
+      {/* Selection overlay - only show when not in painting mode */}
+      {selectedHex && !paintingMode && (
         <path
           d={hexPath}
           fill="rgba(255, 192, 203, 0.5)"
