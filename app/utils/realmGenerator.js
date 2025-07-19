@@ -142,6 +142,14 @@ export class RealmGenerator {
       }
     }
 
+    // Rule 3: Myths must be at least 3 hexes from other myths
+    for (const myth of realm.myths) {
+      const distance = this.calculateHexDistance({ row, col }, { row: myth.row, col: myth.col });
+      if (distance < 3) {
+        return false;
+      }
+    }
+
     return true;
   }
 
