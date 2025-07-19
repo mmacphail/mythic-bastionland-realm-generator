@@ -64,7 +64,6 @@ const RealmGenerator = ({ rows = 12, cols = 12 }) => {
 
   return (
     <div className="min-h-screen">
-      {/* Main Content */}
       <div className="flex-1 hex-grid-container">
         <div className="controls mb-4">
           <h2 className="text-2xl font-bold mb-2">
@@ -91,14 +90,11 @@ const RealmGenerator = ({ rows = 12, cols = 12 }) => {
           </div>
         </div>
 
-        {/* Hex Map and Hex Editor aligned horizontally */}
         <div className="flex gap-4 items-start">
-          {/* Left Panel - Hex Editor */}
           <div className="w-64 flex-shrink-0">
             <HexEditor />
           </div>
 
-          {/* Hex Map */}
           <div className="flex-1">
             <HexMap
               realm={realm}
@@ -109,13 +105,11 @@ const RealmGenerator = ({ rows = 12, cols = 12 }) => {
             />
           </div>
 
-          {/* Right Panel - Hex Details */}
           <div className="w-64 flex-shrink-0">
             <HexDetails />
           </div>
         </div>
 
-        {/* Realm Overview - Below the hex map */}
         <div className="mt-4">
           <RealmOverview realm={realm} />
         </div>
