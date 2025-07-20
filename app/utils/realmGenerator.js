@@ -1,13 +1,14 @@
 import { terrainTypes } from "./hexUtils";
 import { Realm, Hex } from "./realmModel";
 import landmarksData from "../data/landmarks.json";
+import mythsData from "../data/myths.json";
 
 const myths = [
   "The Plague", "The Wall", "The Shadow", "The River", "The Beast", "The Goblin", "The Forest", "The Child", "The Order", "The Dead"
 ];
 
 function pickRandomMyth() {
-  return myths[Math.floor(Math.random() * myths.length)];
+  return mythsData[Math.floor(Math.random() * mythsData.length)];
 }
 
 function pickRandomLandmark(type) {
