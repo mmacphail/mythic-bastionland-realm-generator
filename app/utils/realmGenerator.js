@@ -8,6 +8,11 @@ function pickRandomMyth() {
 }
 
 function pickRandomLandmark(type) {
+  if (!type) {
+    const availableTypes = Object.keys(landmarksData);
+    type = availableTypes[Math.floor(Math.random() * availableTypes.length)];
+  }
+  
   const options = landmarksData[type];
   return options[Math.floor(Math.random() * options.length)];
 }
