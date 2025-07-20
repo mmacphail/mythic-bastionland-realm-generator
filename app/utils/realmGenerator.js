@@ -4,9 +4,9 @@ import landmarksData from "../data/landmarks.json";
 import mythsData from "../data/myths.json";
 import seersData from "../data/seers.json";
 
-export function pickRandomMyth() {
-  return mythsData[Math.floor(Math.random() * mythsData.length)];
-}
+const pickedLandmarks = new Set();
+const pickedSeers = new Set();
+const pickedMyths = new Set();
 
 export function pickRandomLandmarkType() {
   const availableTypes = Object.keys(landmarksData);
@@ -15,11 +15,45 @@ export function pickRandomLandmarkType() {
 
 export function pickRandomLandmark(type) {
   const options = landmarksData[type];
-  return options[Math.floor(Math.random() * options.length)];
+  const availableOptions = options.filter(option => !pickedLandmarks.has(option));
+  
+  // If all options have been picked, reset the set and use all options
+  if (availableOptions.length === 0) {
+    pickedLandmarks.clear();
+    availableOptions.push(...options);
+  }
+  
+  const selectedLandmark = availableOptions[Math.floor(Math.random() * availableOptions.length)];
+  pickedLandmarks.add(selectedLandmark);
+  return selectedLandmark;
 }
 
 export function pickRandomSeer() {
-  return seersData[Math.floor(Math.random() * seersData.length)];
+  const availableSeers = seersData.filter(seer => !pickedSeers.has(seer));
+  
+  // If all seers have been picked, reset the set and use all seers
+  if (availableSeers.length === 0) {
+    pickedSeers.clear();
+    availableSeers.push(...seersData);
+  }
+  
+  const selectedSeer = availableSeers[Math.floor(Math.random() * availableSeers.length)];
+  pickedSeers.add(selectedSeer);
+  return selectedSeer;
+}
+
+export function pickRandomMyth() {
+  const availableMyths = mythsData.filter(myth => !pickedMyths.has(myth));
+  
+  // If all myths have been picked, reset the set and use all myths
+  if (availableMyths.length === 0) {
+    pickedMyths.clear();
+    availableMyths.push(...mythsData);
+  }
+  
+  const selectedMyth = availableMyths[Math.floor(Math.random() * availableMyths.length)];
+  pickedMyths.add(selectedMyth);
+  return selectedMyth;
 }
 
 export class RealmGenerator {
