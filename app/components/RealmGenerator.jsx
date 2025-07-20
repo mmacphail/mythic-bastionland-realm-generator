@@ -182,9 +182,10 @@ const RealmGenerator = ({ rows = 12, cols = 12 }) => {
     updateSelectedHex(row, col, newRealm);
   };
 
-  const addMyth = (row, col, name = '') => {
+  const addMyth = (row, col) => {
     const newRealm = realm.copy();
-    newRealm.addMyth(row, col, name);
+    const myth = pickRandomMyth();
+    newRealm.addMyth(row, col, myth);
     setRealm(newRealm);
     updateSelectedHex(row, col, newRealm);
   };
