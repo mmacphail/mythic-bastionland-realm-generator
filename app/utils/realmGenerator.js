@@ -3,10 +3,6 @@ import { Realm, Hex } from "./realmModel";
 import landmarksData from "../data/landmarks.json";
 import mythsData from "../data/myths.json";
 
-const myths = [
-  "The Plague", "The Wall", "The Shadow", "The River", "The Beast", "The Goblin", "The Forest", "The Child", "The Order", "The Dead"
-];
-
 function pickRandomMyth() {
   return mythsData[Math.floor(Math.random() * mythsData.length)];
 }
