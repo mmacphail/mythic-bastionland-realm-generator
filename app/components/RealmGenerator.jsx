@@ -164,12 +164,13 @@ const RealmGenerator = ({ rows = 12, cols = 12 }) => {
     updateSelectedHex(row, col, newRealm);
   };
 
-  const updateLandmark = (row, col, type, name) => {
+  const updateLandmark = (row, col, type, name, seer = null) => {
     const newRealm = realm.copy();
     const landmarkIndex = newRealm.landmarks.findIndex(l => l.row === row && l.col === col);
     if (landmarkIndex !== -1) {
       newRealm.landmarks[landmarkIndex].type = type;
       newRealm.landmarks[landmarkIndex].name = name;
+      newRealm.landmarks[landmarkIndex].seer = seer;
     }
     setRealm(newRealm);
     updateSelectedHex(row, col, newRealm);
