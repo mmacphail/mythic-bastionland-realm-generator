@@ -152,8 +152,8 @@ export class Realm {
     return this.holdings;
   }
 
-  addLandmark(row, col, type, name) {
-    const landmark = new Landmark(row, col, type, name);
+  addLandmark(row, col, type, name, seer = null) {
+    const landmark = new Landmark(row, col, type, name, seer);
     this.landmarks.push(landmark);
   }
 

@@ -69,7 +69,7 @@ const RealmOverview = ({ realm }) => {
                   )}
                   {hex.landmark && (
                     <div className="text-green-600">
-                      {hex.landmark.type}: {hex.landmark.name}
+                      {hex.landmark.type}: {hex.landmark.name} {hex.landmark.seer ? `(${hex.landmark.seer})` : ''}
                     </div>
                   )}
                   {hex.myth && (
