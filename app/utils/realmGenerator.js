@@ -3,16 +3,16 @@ import { Realm, Hex } from "./realmModel";
 import landmarksData from "../data/landmarks.json";
 import mythsData from "../data/myths.json";
 
-function pickRandomMyth() {
+export function pickRandomMyth() {
   return mythsData[Math.floor(Math.random() * mythsData.length)];
 }
 
-function pickRandomLandmark(type) {
-  if (!type) {
-    const availableTypes = Object.keys(landmarksData);
-    type = availableTypes[Math.floor(Math.random() * availableTypes.length)];
-  }
-  
+export function pickRandomLandmarkType() {
+  const availableTypes = Object.keys(landmarksData);
+  return availableTypes[Math.floor(Math.random() * availableTypes.length)];
+}
+
+export function pickRandomLandmark(type) {
   const options = landmarksData[type];
   return options[Math.floor(Math.random() * options.length)];
 }

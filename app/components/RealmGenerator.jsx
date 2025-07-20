@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { terrainTypes, hexConfig } from "../utils/hexUtils";
 import { Realm, landmarkTypes } from "../utils/realmModel";
-import { RealmGenerator as RealmGeneratorUtil } from "../utils/realmGenerator";
+import { RealmGenerator as RealmGeneratorUtil, pickRandomLandmark, pickRandomLandmarkType, pickRandomMyth } from "../utils/realmGenerator";
 import RealmGenerationControls from "./tool/RealmGenerationControls";
 import TerrainLegend from "./tool/TerrainLegend";
 import TerrainStatistics from "./tool/TerrainStatistics";
@@ -153,9 +153,13 @@ const RealmGenerator = ({ rows = 12, cols = 12 }) => {
     updateSelectedHex(row, col, newRealm);
   };
 
-  const addLandmark = (row, col, type = landmarkTypes[0], name = '') => {
+  const addLandmark = (row, col) => {
     const newRealm = realm.copy();
-    newRealm.addLandmark(row, col, type, name);
+
+    const landmarkType = pickRandomLandmarkType();
+    const landmark = pickRandomLandmark(landmarkType);
+
+    newRealm.addLandmark(row, col, landmarkType, landmark);
     setRealm(newRealm);
     updateSelectedHex(row, col, newRealm);
   };
