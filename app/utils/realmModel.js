@@ -78,15 +78,16 @@ export const landmarkTypes = [
 ];
 
 export class Landmark {
-  constructor(row, col, type, name) {
+  constructor(row, col, type, name, seer) {
     this.row = row;
     this.col = col;
     this.type = type;
     this.name = name;
+    this.seer = seer || null;
   }
 
   static fromJSON(data) {
-    return new Landmark(data.row, data.col, data.type, data.name);
+    return new Landmark(data.row, data.col, data.type, data.name, data.seer);
   }
 }
 

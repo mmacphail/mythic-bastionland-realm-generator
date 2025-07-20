@@ -1,7 +1,8 @@
 import { terrainTypes } from "./hexUtils";
-import { Realm, Hex } from "./realmModel";
+import { Realm, Hex, landmarkTypes } from "./realmModel";
 import landmarksData from "../data/landmarks.json";
 import mythsData from "../data/myths.json";
+import seersData from "../data/seers.json";
 
 export function pickRandomMyth() {
   return mythsData[Math.floor(Math.random() * mythsData.length)];
@@ -15,6 +16,10 @@ export function pickRandomLandmarkType() {
 export function pickRandomLandmark(type) {
   const options = landmarksData[type];
   return options[Math.floor(Math.random() * options.length)];
+}
+
+export function pickRandomSeer() {
+  return seersData[Math.floor(Math.random() * seersData.length)];
 }
 
 export class RealmGenerator {
@@ -172,13 +177,14 @@ export class RealmGenerator {
     }
   }
 
-  static generateLandmarks(realm, count = 5) {
-    for (const type of Object.keys(landmarksData)) {
+  static generateLandmarks(realm, count = 4) {
+    for (const type of landmarkTypes) {
       for (let i = 0; i < count; i++) {
         const position = this.findValidPosition(realm, this.isValidLandmarkPosition.bind(this));
         if (position) {
           const label = pickRandomLandmark(type);
-          realm.addLandmark(position.row, position.col, type, label);
+          const seer = type === "Sanctum" ? pickRandomSeer() : null;
+          realm.addLandmark(position.row, position.col, type, label, seer);
         } else {
           console.warn(`Could not place ${type} landmark ${i + 1} due to placement constraints`);
         }
