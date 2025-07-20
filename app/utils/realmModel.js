@@ -95,9 +95,10 @@ export class Landmark {
  * Represents the entire realm with a grid of hex tiles
  */
 export class Realm {
-  constructor(rows = 12, cols = 12) {
+  constructor(rows = 12, cols = 12, name = "My Realm") {
     this.rows = rows;
     this.cols = cols;
+    this.name = name;
     this.holdings = [];
     this.landmarks = [];
     this.myths = [];
@@ -211,6 +212,7 @@ export class Realm {
     return {
       rows: this.rows,
       cols: this.cols,
+      name: this.name,
       grid: this.hexMap.map(row => row.map(hex => hex.toJSON())),
       holdings: this.holdings,
       landmarks: this.landmarks,
@@ -223,7 +225,7 @@ export class Realm {
    * Import realm from JSON
    */
   static import(data) {
-    const realm = new Realm(data.rows, data.cols);
+    const realm = new Realm(data.rows, data.cols, data.name);
     realm.metadata = data.metadata;
     
     for (let row = 0; row < data.rows; row++) {

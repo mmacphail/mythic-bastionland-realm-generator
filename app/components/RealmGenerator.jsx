@@ -208,6 +208,12 @@ const RealmGenerator = ({ rows = 12, cols = 12 }) => {
     updateSelectedHex(row, col, newRealm);
   };
 
+  const editRealmName = (newName) => {
+    const newRealm = realm.copy();
+    newRealm.name = newName;
+    setRealm(newRealm);
+  };
+
   return (
     <div className="min-h-screen" onMouseUp={handleHexMouseUp}>
       <div className="flex-1 hex-grid-container">
@@ -215,6 +221,15 @@ const RealmGenerator = ({ rows = 12, cols = 12 }) => {
           <h2 className="text-2xl font-bold mb-2">
             Mythic Bastionland Realm Maker
           </h2>
+          <div className="flex items-center gap-2 mb-2">
+            <label className="font-semibold">Realm Name:</label>
+            <input
+              type="text"
+              value={realm.name}
+              onChange={(e) => editRealmName(e.target.value)}
+              className="border p-1"
+            />
+          </div>
 
           <RealmGenerationControls
             onGenerateRandom={generateRandomTerrain}
