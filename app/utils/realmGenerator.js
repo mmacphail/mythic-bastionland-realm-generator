@@ -1,5 +1,6 @@
 import { terrainTypes } from "./hexUtils";
 import { Realm, Hex } from "./realmModel";
+import landmarksData from "../data/landmarks.json";
 
 const myths = [
   "The Plague", "The Wall", "The Shadow", "The River", "The Beast", "The Goblin", "The Forest", "The Child", "The Order", "The Dead"
@@ -9,17 +10,8 @@ function pickRandomMyth() {
   return myths[Math.floor(Math.random() * myths.length)];
 }
 
-const landmarks = {
-  "Dwelling": ["Shepherd fields", "Verant treehouse", "Traveller's inn", "Fertile farm", "Pigeon breeder"],
-  "Sanctum": ["Whispering brook", "Tranquil vista", "Mirrored grotto", "Hilltop hermitage", "Sun shrine"],
-  "Monument": ["Royal statue", "Ancient obelisk", "Runic cairn", "Knight mausoleum", "Voyage mosaic"],
-  "Hazard": ["Choking woodland", "Stinging leaves", "Forgotten traps", "Razor rocks", "Carrion birds"],
-  "Curse": ["Icy mist", "Shifting pit", "Illusory paths", "Heralds of doom", "Dark woods"],
-  "Ruin": ["Burned village", "Defiled totem", "Skull heap", "Hanging skeletons", "Gory painting"]
-}
-
 function pickRandomLandmark(type) {
-  const options = landmarks[type];
+  const options = landmarksData[type];
   return options[Math.floor(Math.random() * options.length)];
 }
 
@@ -179,7 +171,7 @@ export class RealmGenerator {
   }
 
   static generateLandmarks(realm, count = 5) {
-    for (const type of Object.keys(landmarks)) {
+    for (const type of Object.keys(landmarksData)) {
       for (let i = 0; i < count; i++) {
         const position = this.findValidPosition(realm, this.isValidLandmarkPosition.bind(this));
         if (position) {
