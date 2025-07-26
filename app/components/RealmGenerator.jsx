@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { terrainTypes, hexConfig } from "../utils/hexUtils";
-import { Realm, landmarkTypes } from "../utils/realmModel";
+import { Realm } from "../utils/realmModel";
 import { RealmGenerator as RealmGeneratorUtil, pickRandomLandmark, pickRandomLandmarkType, pickRandomMyth } from "../utils/realmGenerator";
+import { exportRealm } from "../utils/realmExport";
 import RealmGenerationControls from "./tool/RealmGenerationControls";
 import TerrainLegend from "./tool/TerrainLegend";
 import TerrainStatistics from "./tool/TerrainStatistics";
@@ -214,6 +215,10 @@ const RealmGenerator = ({ rows = 12, cols = 12 }) => {
     setRealm(newRealm);
   };
 
+  const handleExportRealm = () => {
+    exportRealm(realm);
+  };
+
   return (
     <div className="min-h-screen" onMouseUp={handleHexMouseUp}>
       <div className="flex-1 hex-grid-container">
@@ -237,6 +242,7 @@ const RealmGenerator = ({ rows = 12, cols = 12 }) => {
             onGenerateClustered={generateClusteredTerrain}
             onGenerateWeighted={generateWeightedTerrain}
             onClear={clearTerrain}
+            onExport={handleExportRealm}
           />
 
           <div className="legend flex flex-wrap gap-2 mb-4">
