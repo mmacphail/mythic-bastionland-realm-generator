@@ -2,7 +2,7 @@ import { useState } from "react";
 import { terrainTypes, hexConfig } from "../utils/hexUtils";
 import { Realm } from "../utils/realmModel";
 import { RealmGenerator as RealmGeneratorUtil, pickRandomLandmark, pickRandomLandmarkType, pickRandomMyth } from "../utils/realmGenerator";
-import { exportRealm } from "../utils/realmExport";
+import { exportRealm, importRealm } from "../utils/realmExport";
 import RealmGenerationControls from "./tool/RealmGenerationControls";
 import TerrainLegend from "./tool/TerrainLegend";
 import TerrainStatistics from "./tool/TerrainStatistics";
@@ -18,6 +18,8 @@ const RealmGenerator = ({ rows = 12, cols = 12 }) => {
   const [selectedTerrainType, setSelectedTerrainType] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
   const [dragStarted, setDragStarted] = useState(false);
+  const [importError, setImportError] = useState(null);
+  const [importSuccess, setImportSuccess] = useState(null);
 
   const hexSize = hexConfig.defaultSize;
   const { width: svgWidth, height: svgHeight } = hexConfig.getSvgDimensions(
@@ -219,6 +221,33 @@ const RealmGenerator = ({ rows = 12, cols = 12 }) => {
     exportRealm(realm);
   };
 
+  const handleImportRealm = (file) => {
+    setImportError(null);
+    setImportSuccess(null);
+    
+    importRealm(
+      file,
+      (importedRealm) => {
+        setRealm(importedRealm);
+        setSelectedHex(null); // Clear selection
+        setPaintingMode(false); // Stop painting mode
+        setSelectedTerrainType(null);
+        setIsDragging(false);
+        setDragStarted(false);
+        setImportSuccess(`Realm "${importedRealm.name}" imported successfully!`);
+        
+        // Clear success message after 3 seconds
+        setTimeout(() => setImportSuccess(null), 3000);
+      },
+      (error) => {
+        setImportError(error);
+        
+        // Clear error message after 5 seconds
+        setTimeout(() => setImportError(null), 5000);
+      }
+    );
+  };
+
   return (
     <div className="min-h-screen" onMouseUp={handleHexMouseUp}>
       <div className="flex-1 hex-grid-container">
@@ -236,6 +265,18 @@ const RealmGenerator = ({ rows = 12, cols = 12 }) => {
             />
           </div>
 
+          {/* Import/Export Messages */}
+          {importError && (
+            <div className="mb-2 p-2 bg-red-100 border border-red-400 text-red-700 rounded">
+              {importError}
+            </div>
+          )}
+          {importSuccess && (
+            <div className="mb-2 p-2 bg-green-100 border border-green-400 text-green-700 rounded">
+              {importSuccess}
+            </div>
+          )}
+
           <RealmGenerationControls
             onGenerateRandom={generateRandomTerrain}
             onGenerateBalanced={generateBalancedTerrain}
@@ -243,6 +284,7 @@ const RealmGenerator = ({ rows = 12, cols = 12 }) => {
             onGenerateWeighted={generateWeightedTerrain}
             onClear={clearTerrain}
             onExport={handleExportRealm}
+            onImport={handleImportRealm}
           />
 
           <div className="legend flex flex-wrap gap-2 mb-4">

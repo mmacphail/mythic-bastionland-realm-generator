@@ -1,13 +1,33 @@
+import { useRef } from 'react';
+
 const RealmGenerationControls = ({ 
   onGenerateRandom, 
   onGenerateBalanced, 
   onGenerateClustered, 
   onGenerateWeighted, 
   onClear,
-  onExport 
+  onExport,
+  onImport 
 }) => {
+  const fileInputRef = useRef(null);
+
   const handleExport = () => {
     onExport();
+  };
+
+  const handleImportClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file && file.type === 'application/json') {
+      onImport(file);
+    } else if (file) {
+      alert('Please select a valid JSON file');
+    }
+    // Reset file input
+    event.target.value = '';
   };
 
   return (
@@ -52,6 +72,20 @@ const RealmGenerationControls = ({
         >
           Export Realm
         </button>
+        <button
+          onClick={handleImportClick}
+          className="px-3 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-700"
+          title="Import realm from JSON file"
+        >
+          Import Realm
+        </button>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept=".json"
+          onChange={handleFileChange}
+          className="hidden"
+        />
       </div>
     </div>
   );
