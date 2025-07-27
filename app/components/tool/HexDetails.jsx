@@ -50,28 +50,28 @@ const HexDetails = ({
   const hexFeature = getHexFeature();
 
   return (
-    <div className="bg-white p-4 rounded-lg border border-gray-300">
-      <h3 className="text-lg font-semibold mb-3">Hex Details</h3>
+    <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-300 dark:border-gray-600">
+      <h3 className="text-lg font-semibold mb-3 text-gray-900 dark:text-white">Hex Details</h3>
       {selectedHex ? (
         <div className="space-y-3">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Coordinates
             </label>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
               Row: {selectedHex.row}, Col: {selectedHex.col}
             </p>
           </div>
 
           <div className="relative">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Terrain Type
             </label>
 
             {/* Custom dropdown button */}
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-left flex items-center justify-between"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-left flex items-center justify-between"
             >
               <div className="flex items-center space-x-2">
                 <div
@@ -99,12 +99,12 @@ const HexDetails = ({
 
             {/* Custom dropdown menu */}
             {isDropdownOpen && (
-              <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">
+              <div className="absolute z-10 w-full mt-1 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-auto">
                 {terrainTypes.map((terrain) => (
                   <button
                     key={terrain.type}
                     onClick={() => handleTerrainChange(terrain)}
-                    className="w-full px-3 py-2 text-left hover:bg-gray-100 focus:bg-gray-100 focus:outline-none flex items-center space-x-2"
+                    className="w-full px-3 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-600 focus:bg-gray-100 dark:focus:bg-gray-600 focus:outline-none flex items-center space-x-2 text-gray-900 dark:text-white"
                   >
                     <div
                       className="w-4 h-4 rounded border border-gray-300 flex-shrink-0"
@@ -119,27 +119,27 @@ const HexDetails = ({
 
           {/* Feature Section */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Feature
             </label>
             {hexFeature ? (
               <div className="space-y-2">
                 {hexFeature.type === "holding" && (
-                  <div className="p-3 bg-gray-50 rounded-md">
+                  <div className="p-3 bg-gray-50 dark:bg-gray-700 rounded-md">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="font-medium text-sm">Holding</span>
+                      <span className="font-medium text-sm text-gray-900 dark:text-white">Holding</span>
                       <button
                         onClick={() =>
                           onRemoveHolding(selectedHex.row, selectedHex.col)
                         }
-                        className="text-red-600 hover:text-red-800 text-xs"
+                        className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 text-xs"
                       >
                         Remove
                       </button>
                     </div>
                     <div className="space-y-2">
                       <div>
-                        <label className="block text-xs text-gray-600 mb-1">
+                        <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">
                           Name
                         </label>
                         <input
@@ -153,7 +153,7 @@ const HexDetails = ({
                               e.target.value
                             )
                           }
-                          className="w-full px-2 py-1 text-sm border border-gray-300 rounded"
+                          className="w-full px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                           placeholder="Holding name"
                         />
                       </div>
@@ -169,30 +169,30 @@ const HexDetails = ({
                               hexFeature.data.name
                             )
                           }
-                          className="rounded border-gray-300"
+                          className="rounded border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800"
                         />
-                        <span className="text-sm">Seat of Power</span>
+                        <span className="text-sm text-gray-900 dark:text-white">Seat of Power</span>
                       </label>
                     </div>
                   </div>
                 )}
 
                 {hexFeature.type === "landmark" && (
-                  <div className="p-3 bg-gray-50 rounded-md">
+                  <div className="p-3 bg-gray-50 dark:bg-gray-700 rounded-md">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="font-medium text-sm">Landmark</span>
+                      <span className="font-medium text-sm text-gray-900 dark:text-white">Landmark</span>
                       <button
                         onClick={() =>
                           onRemoveLandmark(selectedHex.row, selectedHex.col)
                         }
-                        className="text-red-600 hover:text-red-800 text-xs"
+                        className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 text-xs"
                       >
                         Remove
                       </button>
                     </div>
                     <div className="space-y-2">
                       <div>
-                        <label className="block text-xs text-gray-600 mb-1">
+                        <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">
                           Type
                         </label>
                         <select
@@ -205,7 +205,7 @@ const HexDetails = ({
                               hexFeature.data.name
                             )
                           }
-                          className="w-full px-2 py-1 text-sm border border-gray-300 rounded"
+                          className="w-full px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                         >
                           {landmarkTypes.map((type) => (
                             <option key={type} value={type}>
@@ -215,7 +215,7 @@ const HexDetails = ({
                         </select>
                       </div>
                       <div>
-                        <label className="block text-xs text-gray-600 mb-1">
+                        <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">
                           Name
                         </label>
                         <input
@@ -229,13 +229,13 @@ const HexDetails = ({
                               e.target.value
                             )
                           }
-                          className="w-full px-2 py-1 text-sm border border-gray-300 rounded"
+                          className="w-full px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                           placeholder="Landmark name"
                         />
                       </div>
                       {hexFeature.data.seer && (
                         <div>
-                          <label className="block text-xs text-gray-600 mb-1">
+                          <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">
                             Seer
                           </label>
 
@@ -251,7 +251,7 @@ const HexDetails = ({
                                 e.target.value
                               )
                             }
-                            className="w-full px-2 py-1 text-sm border border-gray-300 rounded"
+                            className="w-full px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                             placeholder="Landmark seer"
                           />
                         </div>
@@ -261,20 +261,20 @@ const HexDetails = ({
                 )}
 
                 {hexFeature.type === "myth" && (
-                  <div className="p-3 bg-gray-50 rounded-md">
+                  <div className="p-3 bg-gray-50 dark:bg-gray-700 rounded-md">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="font-medium text-sm">Myth</span>
+                      <span className="font-medium text-sm text-gray-900 dark:text-white">Myth</span>
                       <button
                         onClick={() =>
                           onRemoveMyth(selectedHex.row, selectedHex.col)
                         }
-                        className="text-red-600 hover:text-red-800 text-xs"
+                        className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 text-xs"
                       >
                         Remove
                       </button>
                     </div>
                     <div>
-                      <label className="block text-xs text-gray-600 mb-1">
+                      <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">
                         Name
                       </label>
                       <input
@@ -287,7 +287,7 @@ const HexDetails = ({
                             e.target.value
                           )
                         }
-                        className="w-full px-2 py-1 text-sm border border-gray-300 rounded"
+                        className="w-full px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                         placeholder="Myth name"
                       />
                     </div>
@@ -296,13 +296,13 @@ const HexDetails = ({
               </div>
             ) : (
               <div className="space-y-2">
-                <p className="text-sm text-gray-500">No feature on this hex</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">No feature on this hex</p>
                 <div className="flex space-x-2">
                   <button
                     onClick={() =>
                       onAddHolding(selectedHex.row, selectedHex.col)
                     }
-                    className="px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded hover:bg-blue-200"
+                    className="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded hover:bg-blue-200 dark:hover:bg-blue-800"
                   >
                     + Holding
                   </button>
@@ -310,13 +310,13 @@ const HexDetails = ({
                     onClick={() =>
                       onAddLandmark(selectedHex.row, selectedHex.col)
                     }
-                    className="px-2 py-1 text-xs bg-green-100 text-green-700 rounded hover:bg-green-200"
+                    className="px-2 py-1 text-xs bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 rounded hover:bg-green-200 dark:hover:bg-green-800"
                   >
                     + Landmark
                   </button>
                   <button
                     onClick={() => onAddMyth(selectedHex.row, selectedHex.col)}
-                    className="px-2 py-1 text-xs bg-purple-100 text-purple-700 rounded hover:bg-purple-200"
+                    className="px-2 py-1 text-xs bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300 rounded hover:bg-purple-200 dark:hover:bg-purple-800"
                   >
                     + Myth
                   </button>
@@ -326,7 +326,7 @@ const HexDetails = ({
           </div>
         </div>
       ) : (
-        <p className="text-gray-500 text-sm">
+        <p className="text-gray-500 dark:text-gray-400 text-sm">
           Select a hex on the map to view its details
         </p>
       )}

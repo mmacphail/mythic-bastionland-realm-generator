@@ -43,6 +43,5 @@ body {
   gap: 0.25rem;
   padding: 0.25rem 0.5rem;
   border-radius: 0.25rem;
-  background-color: #f9fafb;
-  border: 1px solid #e5e7eb;
+  @apply bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600;
 }

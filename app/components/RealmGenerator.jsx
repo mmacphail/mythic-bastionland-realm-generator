@@ -249,30 +249,30 @@ const RealmGenerator = ({ rows = 12, cols = 12 }) => {
   };
 
   return (
-    <div className="min-h-screen" onMouseUp={handleHexMouseUp}>
+    <div className="min-h-screen bg-white dark:bg-gray-950" onMouseUp={handleHexMouseUp}>
       <div className="flex-1 hex-grid-container">
         <div className="controls mb-4">
-          <h2 className="text-2xl font-bold mb-2">
+          <h2 className="text-2xl font-bold mb-2 text-gray-900 dark:text-white">
             Mythic Bastionland Realm Maker
           </h2>
           <div className="flex items-center gap-2 mb-2">
-            <label className="font-semibold">Realm Name:</label>
+            <label className="font-semibold text-gray-900 dark:text-white">Realm Name:</label>
             <input
               type="text"
               value={realm.name}
               onChange={(e) => editRealmName(e.target.value)}
-              className="border p-1"
+              className="border border-gray-300 dark:border-gray-600 p-1 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
             />
           </div>
 
           {/* Import/Export Messages */}
           {importError && (
-            <div className="mb-2 p-2 bg-red-100 border border-red-400 text-red-700 rounded">
+            <div className="mb-2 p-2 bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-600 text-red-700 dark:text-red-300 rounded">
               {importError}
             </div>
           )}
           {importSuccess && (
-            <div className="mb-2 p-2 bg-green-100 border border-green-400 text-green-700 rounded">
+            <div className="mb-2 p-2 bg-green-100 dark:bg-green-900 border border-green-400 dark:border-green-600 text-green-700 dark:text-green-300 rounded">
               {importSuccess}
             </div>
           )}

@@ -6,7 +6,7 @@ const HexMap = ({ realm, svgWidth, svgHeight, hexSize, selectHex, selectedHex, p
   const myths = realm.getMyths();
   
   return (
-    <div className="hex-grid overflow-auto border border-gray-300 rounded-lg p-4">
+    <div className="hex-grid overflow-auto border border-gray-300 dark:border-gray-600 rounded-lg p-4">
       <svg 
         width={svgWidth} 
         height={svgHeight}

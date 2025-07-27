@@ -25,9 +25,9 @@ const HexTile = ({ hex, rowIndex, colIndex, hexSize, selectHex, selectedHex, pai
       <path
         d={hexPath}
         fill={hex.terrainType.color}
-        stroke="#333"
+        stroke="currentColor"
         strokeWidth="1"
-        className={`hex-tile ${cursorClass} hover:opacity-80 transition-opacity`}
+        className={`hex-tile ${cursorClass} hover:opacity-80 transition-opacity text-gray-600 dark:text-gray-400`}
         onClick={handleClick}
         onMouseDown={handleMouseDown}
         onMouseEnter={() => onHexMouseEnter && onHexMouseEnter(hex)}
@@ -54,8 +54,7 @@ const HexTile = ({ hex, rowIndex, colIndex, hexSize, selectHex, selectedHex, pai
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize="16"
-          fill="#000"
-          className="pointer-events-none select-none holding-symbol"
+          className="pointer-events-none select-none holding-symbol fill-gray-900 dark:fill-white"
           style={{ fontWeight: 'bold' }}
         >
           {holding.isSeatOfPower ? 'S' : 'H'}
@@ -70,8 +69,7 @@ const HexTile = ({ hex, rowIndex, colIndex, hexSize, selectHex, selectedHex, pai
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize="16"
-          fill="#000"
-          className="pointer-events-none select-none landmark-symbol"
+          className="pointer-events-none select-none landmark-symbol fill-gray-900 dark:fill-white"
           style={{ fontWeight: 'bold' }}
         >
           L
@@ -86,8 +84,7 @@ const HexTile = ({ hex, rowIndex, colIndex, hexSize, selectHex, selectedHex, pai
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize="16"
-          fill="#000"
-          className="pointer-events-none select-none myth-symbol"
+          className="pointer-events-none select-none myth-symbol fill-gray-900 dark:fill-white"
           style={{ fontWeight: 'bold' }}
         >
           M
@@ -102,8 +99,7 @@ const HexTile = ({ hex, rowIndex, colIndex, hexSize, selectHex, selectedHex, pai
           textAnchor="middle"
           dominantBaseline="middle"
           fontSize="8"
-          fill="#333"
-          className="pointer-events-none select-none"
+          className="pointer-events-none select-none fill-gray-600 dark:fill-gray-400"
         >
           {rowIndex},{colIndex}
         </text>
