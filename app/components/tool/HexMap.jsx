@@ -1,4 +1,5 @@
 import HexTile from './HexTile';
+import { hexUtils } from '../../utils/hexUtils';
 
 const HexMap = ({ realm, svgWidth, svgHeight, hexSize, selectHex, selectedHex, paintingMode, onHexMouseDown, onHexMouseEnter, onHexMouseUp }) => {
   const holdings = realm.getHoldings();
@@ -29,7 +30,6 @@ const HexMap = ({ realm, svgWidth, svgHeight, hexSize, selectHex, selectedHex, p
                 colIndex={colIndex}
                 hexSize={hexSize}
                 selectHex={selectHex}
-                selectedHex={selectedHex === hex}
                 paintingMode={paintingMode}
                 onHexMouseDown={onHexMouseDown}
                 onHexMouseEnter={onHexMouseEnter}
@@ -41,6 +41,53 @@ const HexMap = ({ realm, svgWidth, svgHeight, hexSize, selectHex, selectedHex, p
               />
             );
           })
+        )}
+        
+        {/* Hex grid strokes - rendered on top of all hex tiles */}
+        <g className="hex-strokes pointer-events-none">
+          {realm.hexMap.map((row, rowIndex) =>
+            row.map((hex, colIndex) => {
+              const { x, y } = hexUtils.hexToWorld(rowIndex, colIndex, hexSize);
+              const hexPath = hexUtils.generateHexPath(x, y, hexSize);
+              
+              return (
+                <path
+                  key={`stroke-${rowIndex}-${colIndex}`}
+                  d={hexPath}
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1"
+                  className="text-gray-600 dark:text-gray-400"
+                />
+              );
+            })
+          )}
+        </g>
+        
+        {/* Selected hex overlay - rendered on top of strokes */}
+        {selectedHex && !paintingMode && (
+          <g className="selected-hex pointer-events-none">
+            {realm.hexMap.map((row, rowIndex) =>
+              row.map((hex, colIndex) => {
+                if (hex === selectedHex) {
+                  const { x, y } = hexUtils.hexToWorld(rowIndex, colIndex, hexSize);
+                  const hexPath = hexUtils.generateHexPath(x, y, hexSize);
+                  
+                  return (
+                    <path
+                      key={`selected-${rowIndex}-${colIndex}`}
+                      d={hexPath}
+                      fill="rgba(255, 192, 203, 0.5)"
+                      stroke="purple"
+                      strokeWidth="3"
+                      className="pointer-events-none"
+                    />
+                  );
+                }
+                return null;
+              })
+            )}
+          </g>
         )}
       </svg>
     </div>

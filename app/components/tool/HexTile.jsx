@@ -1,6 +1,6 @@
 import { hexUtils } from '../../utils/hexUtils';
 
-const HexTile = ({ hex, rowIndex, colIndex, hexSize, selectHex, selectedHex, paintingMode, onHexMouseDown, onHexMouseEnter, onHexMouseUp, landmark, holding, myth, barriers = [] }) => {
+const HexTile = ({ hex, rowIndex, colIndex, hexSize, selectHex, paintingMode, onHexMouseDown, onHexMouseEnter, onHexMouseUp, landmark, holding, myth, barriers = [] }) => {
   const { x, y } = hexUtils.hexToWorld(rowIndex, colIndex, hexSize);
   const hexPath = hexUtils.generateHexPath(x, y, hexSize);
   
@@ -48,26 +48,14 @@ const HexTile = ({ hex, rowIndex, colIndex, hexSize, selectHex, selectedHex, pai
       <path
         d={hexPath}
         fill={hex.terrainType.color}
-        stroke="currentColor"
-        strokeWidth="1"
-        className={`hex-tile ${cursorClass} hover:opacity-80 transition-opacity text-gray-600 dark:text-gray-400`}
+        stroke="none"
+        className={`hex-tile ${cursorClass} hover:opacity-80 transition-opacity`}
         onClick={handleClick}
         onMouseDown={handleMouseDown}
         onMouseEnter={() => onHexMouseEnter && onHexMouseEnter(hex)}
         onMouseUp={() => onHexMouseUp && onHexMouseUp()}
         style={{ userSelect: 'none' }}
       />
-      
-      {/* Selection overlay - only show when not in painting mode */}
-      {selectedHex && !paintingMode && (
-        <path
-          d={hexPath}
-          fill="rgba(255, 192, 203, 0.5)"
-          stroke="purple"
-          strokeWidth="3"
-          className="pointer-events-none"
-        />
-      )}
       
       {/* Render holdings */}
       {holding && (
