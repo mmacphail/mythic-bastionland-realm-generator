@@ -1,8 +1,32 @@
 import { hexUtils } from '../../utils/hexUtils';
 
-const HexTile = ({ hex, rowIndex, colIndex, hexSize, selectHex, selectedHex, paintingMode, onHexMouseDown, onHexMouseEnter, onHexMouseUp, landmark, holding, myth }) => {
+const HexTile = ({ hex, rowIndex, colIndex, hexSize, selectHex, selectedHex, paintingMode, onHexMouseDown, onHexMouseEnter, onHexMouseUp, landmark, holding, myth, barriers = [] }) => {
   const { x, y } = hexUtils.hexToWorld(rowIndex, colIndex, hexSize);
   const hexPath = hexUtils.generateHexPath(x, y, hexSize);
+  
+  // Function to get the line coordinates for a barrier side
+  const getBarrierLine = (side) => {
+    // Hexagon sides are numbered 1-6 starting from top left going clockwise
+    // Side angles: 1=top-left, 2=top-right, 3=right, 4=bottom-right, 5=bottom-left, 6=left
+    const sideAngles = [
+      -Math.PI/3 * 2, // Side 1: top-left
+      -Math.PI/3,     // Side 2: top-right  
+      0,              // Side 3: right
+      Math.PI/3,      // Side 4: bottom-right
+      Math.PI/3 * 2,  // Side 5: bottom-left
+      Math.PI         // Side 6: left
+    ];
+    
+    const angle1 = sideAngles[side - 1] - Math.PI / 2;
+    const angle2 = sideAngles[side % 6] - Math.PI / 2;
+    
+    const x1 = x + hexSize * Math.cos(angle1);
+    const y1 = y + hexSize * Math.sin(angle1);
+    const x2 = x + hexSize * Math.cos(angle2);
+    const y2 = y + hexSize * Math.sin(angle2);
+    
+    return { x1, y1, x2, y2 };
+  };
   
   // Change cursor based on mode
   const cursorClass = paintingMode ? 'cursor-crosshair' : 'cursor-pointer';
@@ -104,6 +128,24 @@ const HexTile = ({ hex, rowIndex, colIndex, hexSize, selectHex, selectedHex, pai
           {rowIndex},{colIndex}
         </text>
       )}
+      
+      {/* Render barriers */}
+      {barriers.map((barrier, index) => {
+        const { x1, y1, x2, y2 } = getBarrierLine(barrier.side);
+        return (
+          <line
+            key={index}
+            x1={x1}
+            y1={y1}
+            x2={x2}
+            y2={y2}
+            stroke="red"
+            strokeWidth="4"
+            className="pointer-events-none"
+            opacity="0.8"
+          />
+        );
+      })}
     </g>
   );
 };

@@ -73,6 +73,14 @@ export class Myth {
   }
 }
 
+export class Barrier {
+  constructor(row, col, side) {
+    this.row = row;
+    this.col = col;
+    this.side = side; // 1-6, starting top left and going clockwise
+  }
+}
+
 export const landmarkTypes = [
   "Dwelling", "Sanctum", "Monument", "Hazard", "Curse", "Ruin"
 ];
@@ -102,6 +110,7 @@ export class Realm {
     this.holdings = [];
     this.landmarks = [];
     this.myths = [];
+    this.barriers = [];
     this.hexMap = this.initializeHexMap();
     this.metadata = {
       createdAt: new Date(),
@@ -169,6 +178,15 @@ export class Realm {
 
   getMyths() {
     return this.myths;
+  }
+
+  addBarrier(row, col, side) {
+    const barrier = new Barrier(row, col, side);
+    this.barriers.push(barrier);
+  }
+
+  getBarriers() {
+    return this.barriers;
   }
 
   /**
@@ -244,6 +262,9 @@ export class Realm {
     if (data.myths) {
       realm.myths = data.myths.map(m => new Myth(m.row, m.col, m.name));
     }
+    if (data.barriers) {
+      realm.barriers = data.barriers.map(b => new Barrier(b.row, b.col, b.side));
+    }
     
     return realm;
   }
@@ -259,6 +280,7 @@ export class Realm {
     newRealm.holdings = [...this.holdings];
     newRealm.landmarks = [...this.landmarks];
     newRealm.myths = [...this.myths];
+    newRealm.barriers = [...this.barriers];
     newRealm.metadata = { ...this.metadata, lastModified: new Date() };
     return newRealm;
   }

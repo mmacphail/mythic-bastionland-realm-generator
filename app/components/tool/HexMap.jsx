@@ -4,6 +4,7 @@ const HexMap = ({ realm, svgWidth, svgHeight, hexSize, selectHex, selectedHex, p
   const holdings = realm.getHoldings();
   const landmarks = realm.getLandmarks();
   const myths = realm.getMyths();
+  const barriers = realm.getBarriers();
   
   return (
     <div className="hex-grid overflow-auto border border-gray-300 dark:border-gray-600 rounded-lg p-4">
@@ -18,6 +19,7 @@ const HexMap = ({ realm, svgWidth, svgHeight, hexSize, selectHex, selectedHex, p
             const landmark = landmarks.find(l => l.row === rowIndex && l.col === colIndex);
             const holding = holdings.find(h => h.row === rowIndex && h.col === colIndex);
             const myth = myths.find(m => m.row === rowIndex && m.col === colIndex);
+            const hexBarriers = barriers.filter(b => b.row === rowIndex && b.col === colIndex);
             
             return (
               <HexTile
@@ -35,6 +37,7 @@ const HexMap = ({ realm, svgWidth, svgHeight, hexSize, selectHex, selectedHex, p
                 landmark={landmark}
                 holding={holding}
                 myth={myth}
+                barriers={hexBarriers}
               />
             );
           })

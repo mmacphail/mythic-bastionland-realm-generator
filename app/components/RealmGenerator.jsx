@@ -211,6 +211,20 @@ const RealmGenerator = ({ rows = 12, cols = 12 }) => {
     updateSelectedHex(row, col, newRealm);
   };
 
+  const addBarrier = (row, col, side) => {
+    const newRealm = realm.copy();
+    newRealm.addBarrier(row, col, side);
+    setRealm(newRealm);
+    updateSelectedHex(row, col, newRealm);
+  };
+
+  const removeBarrier = (row, col, side) => {
+    const newRealm = realm.copy();
+    newRealm.barriers = newRealm.barriers.filter(b => !(b.row === row && b.col === col && b.side === side));
+    setRealm(newRealm);
+    updateSelectedHex(row, col, newRealm);
+  };
+
   const editRealmName = (newName) => {
     const newRealm = realm.copy();
     newRealm.name = newName;
@@ -336,6 +350,8 @@ const RealmGenerator = ({ rows = 12, cols = 12 }) => {
               onAddMyth={addMyth}
               onUpdateMyth={updateMyth}
               onRemoveMyth={removeMyth}
+              onAddBarrier={addBarrier}
+              onRemoveBarrier={removeBarrier}
             />
           </div>
         </div>
