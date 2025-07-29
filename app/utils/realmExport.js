@@ -15,7 +15,8 @@ export const exportRealm = (realm) => {
     terrain: [],
     holdings: realm.holdings || [],
     landmarks: realm.landmarks || [],
-    myths: realm.myths || []
+    myths: realm.myths || [],
+    barriers: realm.barriers || []
   };
 
   // Export all terrain data
@@ -105,6 +106,10 @@ const validateRealmData = (data) => {
     return false;
   }
   
+  if (data.barriers && !Array.isArray(data.barriers)) {
+    return false;
+  }
+  
   return true;
 };
 
@@ -148,6 +153,15 @@ const createRealmFromImportData = (data) => {
       row: myth.row,
       col: myth.col,
       name: myth.name
+    }));
+  }
+  
+  // Import barriers
+  if (data.barriers) {
+    realm.barriers = data.barriers.map(barrier => ({
+      row: barrier.row,
+      col: barrier.col,
+      side: barrier.side
     }));
   }
   
