@@ -63,7 +63,7 @@ const HexTile = ({ hex, rowIndex, colIndex, hexSize, selectHex, selectedHex, pai
         <path
           d={hexPath}
           fill="rgba(255, 192, 203, 0.5)"
-          stroke="red"
+          stroke="purple"
           strokeWidth="3"
           className="pointer-events-none"
         />
