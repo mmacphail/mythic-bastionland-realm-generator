@@ -6,15 +6,14 @@ const HexTile = ({ hex, rowIndex, colIndex, hexSize, selectHex, selectedHex, pai
   
   // Function to get the line coordinates for a barrier side
   const getBarrierLine = (side) => {
-    // Hexagon sides are numbered 1-6 starting from top left going clockwise
-    // Side angles: 1=top-left, 2=top-right, 3=right, 4=bottom-right, 5=bottom-left, 6=left
+    // Hexagon sides are numbered 1-6 starting from left going clockwise
     const sideAngles = [
-      -Math.PI/3 * 2, // Side 1: top-left
-      -Math.PI/3,     // Side 2: top-right  
-      0,              // Side 3: right
-      Math.PI/3,      // Side 4: bottom-right
-      Math.PI/3 * 2,  // Side 5: bottom-left
-      Math.PI         // Side 6: left
+      -Math.PI/3 * 2, // Side 1: left
+      -Math.PI/3,     // Side 2: top-left  
+      0,              // Side 3: top-right
+      Math.PI/3,      // Side 4: right
+      Math.PI/3 * 2,  // Side 5: bottom-right
+      Math.PI         // Side 6: bottom-left
     ];
     
     const angle1 = sideAngles[side - 1] - Math.PI / 2;

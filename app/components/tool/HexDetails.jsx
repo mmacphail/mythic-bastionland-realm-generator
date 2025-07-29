@@ -357,6 +357,15 @@ const HexDetails = ({
                   (b) => b.row === selectedHex.row && b.col === selectedHex.col
                 );
 
+              const sideLabels = {
+                1: "Left",
+                2: "Top Left",
+                3: "Top Right",
+                4: "Right",
+                5: "Bottom Right",
+                6: "Bottom Left",
+              };
+
               return (
                 <div className="space-y-2">
                   {hexBarriers.length > 0 ? (
@@ -368,14 +377,6 @@ const HexDetails = ({
                         >
                           <span className="text-sm text-gray-900 dark:text-white">
                             {(() => {
-                              const sideLabels = {
-                                1: "Left",
-                                2: "Top Left",
-                                3: "Top Right",
-                                4: "Right",
-                                5: "Bottom Right",
-                                6: "Bottom Left",
-                              };
                               return sideLabels[barrier.side];
                             })()}
                           </span>
@@ -402,14 +403,6 @@ const HexDetails = ({
 
                   <div className="grid grid-cols-3 gap-1">
                     {[1, 2, 3, 4, 5, 6].map((side) => {
-                      const sideLabels = {
-                        1: "Left",
-                        2: "Top Left",
-                        3: "Top Right",
-                        4: "Right",
-                        5: "Bottom Right",
-                        6: "Bottom Left",
-                      };
                       const hasBarrier = hexBarriers.some(
                         (b) => b.side === side
                       );
