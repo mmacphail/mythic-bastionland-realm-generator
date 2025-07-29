@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { terrainTypes } from "../../utils/hexUtils";
-import { landmarkTypes, Holding, Landmark, Myth, Barrier } from "../../utils/realmModel";
+import {
+  landmarkTypes,
+  Holding,
+  Landmark,
+  Myth,
+  Barrier,
+} from "../../utils/realmModel";
 
 const HexDetails = ({
   realm,
@@ -53,7 +59,9 @@ const HexDetails = ({
 
   return (
     <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-300 dark:border-gray-600">
-      <h3 className="text-lg font-semibold mb-3 text-gray-900 dark:text-white">Hex Details</h3>
+      <h3 className="text-lg font-semibold mb-3 text-gray-900 dark:text-white">
+        Hex Details
+      </h3>
       {selectedHex ? (
         <div className="space-y-3">
           <div>
@@ -129,7 +137,9 @@ const HexDetails = ({
                 {hexFeature.type === "holding" && (
                   <div className="p-3 bg-gray-50 dark:bg-gray-700 rounded-md">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="font-medium text-sm text-gray-900 dark:text-white">Holding</span>
+                      <span className="font-medium text-sm text-gray-900 dark:text-white">
+                        Holding
+                      </span>
                       <button
                         onClick={() =>
                           onRemoveHolding(selectedHex.row, selectedHex.col)
@@ -173,7 +183,9 @@ const HexDetails = ({
                           }
                           className="rounded border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800"
                         />
-                        <span className="text-sm text-gray-900 dark:text-white">Seat of Power</span>
+                        <span className="text-sm text-gray-900 dark:text-white">
+                          Seat of Power
+                        </span>
                       </label>
                     </div>
                   </div>
@@ -182,7 +194,9 @@ const HexDetails = ({
                 {hexFeature.type === "landmark" && (
                   <div className="p-3 bg-gray-50 dark:bg-gray-700 rounded-md">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="font-medium text-sm text-gray-900 dark:text-white">Landmark</span>
+                      <span className="font-medium text-sm text-gray-900 dark:text-white">
+                        Landmark
+                      </span>
                       <button
                         onClick={() =>
                           onRemoveLandmark(selectedHex.row, selectedHex.col)
@@ -265,7 +279,9 @@ const HexDetails = ({
                 {hexFeature.type === "myth" && (
                   <div className="p-3 bg-gray-50 dark:bg-gray-700 rounded-md">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="font-medium text-sm text-gray-900 dark:text-white">Myth</span>
+                      <span className="font-medium text-sm text-gray-900 dark:text-white">
+                        Myth
+                      </span>
                       <button
                         onClick={() =>
                           onRemoveMyth(selectedHex.row, selectedHex.col)
@@ -298,7 +314,9 @@ const HexDetails = ({
               </div>
             ) : (
               <div className="space-y-2">
-                <p className="text-sm text-gray-500 dark:text-gray-400">No feature on this hex</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  No feature on this hex
+                </p>
                 <div className="flex space-x-2">
                   <button
                     onClick={() =>
@@ -333,19 +351,42 @@ const HexDetails = ({
               Barriers
             </label>
             {(() => {
-              const hexBarriers = realm.getBarriers().filter(b => b.row === selectedHex.row && b.col === selectedHex.col);
-              
+              const hexBarriers = realm
+                .getBarriers()
+                .filter(
+                  (b) => b.row === selectedHex.row && b.col === selectedHex.col
+                );
+
               return (
                 <div className="space-y-2">
                   {hexBarriers.length > 0 ? (
                     <div className="space-y-1">
                       {hexBarriers.map((barrier, index) => (
-                        <div key={index} className="flex items-center justify-between p-2 bg-red-50 dark:bg-red-900/20 rounded-md">
+                        <div
+                          key={index}
+                          className="flex items-center justify-between p-2 bg-red-50 dark:bg-red-900/20 rounded-md"
+                        >
                           <span className="text-sm text-gray-900 dark:text-white">
-                            Side {barrier.side}
+                            {(() => {
+                              const sideLabels = {
+                                1: "Left",
+                                2: "Top Left",
+                                3: "Top Right",
+                                4: "Right",
+                                5: "Bottom Right",
+                                6: "Bottom Left",
+                              };
+                              return sideLabels[barrier.side];
+                            })()}
                           </span>
                           <button
-                            onClick={() => onRemoveBarrier(selectedHex.row, selectedHex.col, barrier.side)}
+                            onClick={() =>
+                              onRemoveBarrier(
+                                selectedHex.row,
+                                selectedHex.col,
+                                barrier.side
+                              )
+                            }
                             className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 text-xs"
                           >
                             Remove
@@ -354,25 +395,44 @@ const HexDetails = ({
                       ))}
                     </div>
                   ) : (
-                    <p className="text-sm text-gray-500 dark:text-gray-400">No barriers on this hex</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                      No barriers on this hex
+                    </p>
                   )}
-                  
+
                   <div className="grid grid-cols-3 gap-1">
-                    {[1, 2, 3, 4, 5, 6].map(side => {
-                      const hasBarrier = hexBarriers.some(b => b.side === side);
+                    {[1, 2, 3, 4, 5, 6].map((side) => {
+                      const sideLabels = {
+                        1: "Left",
+                        2: "Top Left",
+                        3: "Top Right",
+                        4: "Right",
+                        5: "Bottom Right",
+                        6: "Bottom Left",
+                      };
+                      const hasBarrier = hexBarriers.some(
+                        (b) => b.side === side
+                      );
                       return (
                         <button
                           key={side}
-                          onClick={() => !hasBarrier && onAddBarrier(selectedHex.row, selectedHex.col, side)}
+                          onClick={() =>
+                            !hasBarrier &&
+                            onAddBarrier(selectedHex.row, selectedHex.col, side)
+                          }
                           disabled={hasBarrier}
                           className={`px-2 py-1 text-xs rounded ${
-                            hasBarrier 
-                              ? 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed'
-                              : 'bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-800'
+                            hasBarrier
+                              ? "bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed"
+                              : "bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-800"
                           }`}
-                          title={`${hasBarrier ? 'Barrier already exists on' : 'Add barrier to'} side ${side}`}
+                          title={`${
+                            hasBarrier
+                              ? "Barrier already exists on"
+                              : "Add barrier to"
+                          } ${sideLabels[side].toLowerCase()} side`}
                         >
-                          + Side {side}
+                          + {sideLabels[side]}
                         </button>
                       );
                     })}
